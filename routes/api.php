@@ -18,5 +18,9 @@ Route::prefix('contractor')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('register', [AuthContractorController::class, 'register']);
         Route::post('login', [AuthContractorController::class, 'login']);
+        Route::get('unauthenticated', [AuthContractorController::class, 'unauthenticated'])->name('login');
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('logout', [AuthContractorController::class, 'logout']);
+        });
     });
 });

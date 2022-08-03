@@ -81,4 +81,25 @@ class AuthContractorController extends Controller
         }
     }
 
+    public function logout(): JsonResponse
+    {
+        try {
+            Auth::user()->currentAccessToken()->delete();
+            return $this->success();
+        } catch (Exception $e) {
+            return $this->error($e);
+        }
+    }
+
+    public function unauthenticated(): JsonResponse
+    {
+        return $this->customResponse([
+            'status' => 401,
+            'response' => [
+                'status' => false,
+                'message' => 'Unauthenticated'
+            ]
+        ]);
+    }
+
 }
