@@ -6,6 +6,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -47,6 +48,34 @@ class AuthContractorController extends Controller
             ]);
 
             return $this->successWithData($user);
+        } catch (Exception $e) {
+            return $this->error($e);
+        }
+    }
+
+    public function login(Request $request): JsonResponse
+    {
+        $rules = [
+            'email' => 'required|string|max:255',
+            'password' => 'required|string|min:6',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $email = $request->input('email');
+        $password = $request->input('password');
+
+        try {
+            $login_type = filter_var($request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+            if (Auth::attempt([$login_type => $email, 'password' => $password])) {
+                $user = Auth::user();
+                $user->token = $user->createToken($user['role'].'-auth')->plainTextToken;
+                return $this->successWithData($user);
+            }
+            throw new Exception('Invalid credentials', 1000);
+
         } catch (Exception $e) {
             return $this->error($e);
         }
