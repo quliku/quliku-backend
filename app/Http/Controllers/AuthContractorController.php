@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -17,7 +18,7 @@ class AuthContractorController extends Controller
     public function me(): JsonResponse
     {
         try {
-            $user = Auth::user();
+            $user = new UserResource(Auth::user());
             return $this->successWithData($user);
         } catch (Exception $e) {
             return $this->error($e);
@@ -57,7 +58,7 @@ class AuthContractorController extends Controller
                 'profile_url' => $filename,
             ]);
 
-            return $this->successWithData($user);
+            return $this->successWithData(new UserResource($user));
         } catch (Exception $e) {
             return $this->error($e);
         }
@@ -80,8 +81,9 @@ class AuthContractorController extends Controller
             $login_type = filter_var($request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
             if (Auth::attempt([$login_type => $email, 'password' => $password])) {
-                $user = Auth::user();
-                $user->token = $user->createToken($user['role'].'-auth')->plainTextToken;
+                $user = new UserResource(Auth::user());
+                $token = $user->createToken($user['role'].'-auth')->plainTextToken;
+                $user->setToken($token);
                 return $this->successWithData($user);
             }
             throw new Exception('Invalid credentials', 1000);
