@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ForemanImageResource;
+use App\Http\Resources\ForemanResource;
 use App\Http\Resources\UserResource;
 use App\Models\ForemanDetail;
 use App\Models\ForemanImage;
@@ -10,6 +12,7 @@ use App\Shared\DBManager;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -104,6 +107,23 @@ class AuthForemanController extends Controller
             return $this->successWithData(new UserResource($user));
         } catch (Exception $e) {
             $this->db_manager->rollBack();
+            return $this->error($e);
+        }
+    }
+
+    public function me(): JsonResponse
+    {
+        try {
+            $user = Auth::user();
+            $foreman = ForemanDetail::where('user_id', $user->getAuthIdentifier())->first();
+            $images = ForemanImage::where('user_id', $user->getAuthIdentifier())->get();
+
+            $response = new ForemanResource($foreman);
+            $response->setUser((new UserResource($user))->toArray(request()));
+            $response->setImages(ForemanImageResource::collection($images)->toArray(request()));
+
+            return $this->successWithData($response);
+        } catch (Exception $e) {
             return $this->error($e);
         }
     }
