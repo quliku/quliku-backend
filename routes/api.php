@@ -23,4 +23,8 @@ Route::prefix('contractor')->group(function () {
             Route::post('logout', [AuthContractorController::class, 'logout']);
         });
     });
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('me', [AuthContractorController::class, 'me']);
+    });
 });

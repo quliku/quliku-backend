@@ -14,6 +14,16 @@ use Illuminate\Support\Facades\Validator;
 class AuthContractorController extends Controller
 {
 
+    public function me(): JsonResponse
+    {
+        try {
+            $user = Auth::user();
+            return $this->successWithData($user);
+        } catch (Exception $e) {
+            return $this->error($e);
+        }
+    }
+
     public function register(Request $request): JsonResponse
     {
         $rules = [
