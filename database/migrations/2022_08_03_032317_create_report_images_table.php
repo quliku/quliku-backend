@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('report_images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('report_id')->constrained();
-            $table->string('image_url');
+            $table->string('photo_url');
             $table->timestamps();
         });
     }
