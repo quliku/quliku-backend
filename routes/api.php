@@ -33,6 +33,7 @@ Route::prefix('contractor')->group(function () {
 Route::prefix('foreman')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('register', [AuthForemanController::class, 'register']);
+        Route::post('login', [AuthContractorController::class, 'login']);
     });
 });
 
