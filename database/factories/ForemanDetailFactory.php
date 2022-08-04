@@ -20,7 +20,7 @@ class ForemanDetailFactory extends Factory
         $classification = ['water', 'infra', 'engineer', 'craft'];
         $bank_type = ['BRI', 'BNI', 'BCA', 'Mandiri'];
         return [
-            'user_id' => User::factory()->create()->id,
+            'user_id' => User::factory()->foremanRole()->create()->id,
             'city' => fake()->city,
             'wa_number' => fake()->phoneNumber,
             'classification' => $classification[array_rand($classification)],
