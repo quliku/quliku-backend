@@ -46,15 +46,15 @@ class ForemanResource extends JsonResource
             'account_number' => $this->account_number,
         ];
 
-        if ($this->user_data) {
+        if (isset($this->user_data)) {
             $response = array_merge($this->user_data, $response);
         }
 
-        if ($this->images) {
+        if (isset($this->images)) {
             $response['images'] = $this->images;
         }
 
-        if ($this->rating) {
+        if (isset($this->rating)) {
             $response['rating'] = $this->rating;
         }
 
