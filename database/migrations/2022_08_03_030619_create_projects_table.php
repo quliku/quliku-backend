@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('contractor_id');
-            $table->foreignId('foreman_id');
+            $table->foreignId('contractor_id')->constrained('users');
+            $table->foreignId('foreman_id')->constrained('users');
             $table->string('name');
             $table->string('description')->nullable();
             $table->enum('status', ['waiting', 'live-1', 'live-2', 'done', 'reject'])->default('waiting');
