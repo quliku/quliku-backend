@@ -11,7 +11,7 @@ class ForemanResource extends JsonResource
 {
     public function setUser(array $user)
     {
-        $this->user = $user;
+        $this->user_data = $user;
     }
 
     public function setImages(array $images)
@@ -41,8 +41,8 @@ class ForemanResource extends JsonResource
             'account_number' => $this->account_number,
         ];
 
-        if ($this->user) {
-            $response = array_merge($this->user, $response);
+        if ($this->user_data) {
+            $response = array_merge($this->user_data, $response);
         }
 
         if ($this->images) {
