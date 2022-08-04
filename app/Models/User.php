@@ -77,8 +77,13 @@ class User extends Authenticatable
         return $this->hasMany(ReportImage::class);
     }
 
-    public function ratings(): HasMany
+    public function contractorRatings(): HasMany
     {
-        return $this->hasMany(Rating::class);
+        return $this->hasMany(Rating::class, 'contractor_id');
+    }
+
+    public function foremanRatings(): HasMany
+    {
+        return $this->hasMany(Rating::class, 'foreman_id');
     }
 }
