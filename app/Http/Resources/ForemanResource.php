@@ -19,6 +19,11 @@ class ForemanResource extends JsonResource
         $this->images = $images;
     }
 
+    public function setRating(float $rating)
+    {
+        $this->rating = $rating;
+    }
+
     /**
      * Transform the resource into an array.
      *
@@ -47,6 +52,10 @@ class ForemanResource extends JsonResource
 
         if ($this->images) {
             $response['images'] = $this->images;
+        }
+
+        if ($this->rating) {
+            $response['rating'] = $this->rating;
         }
 
         return $response;
