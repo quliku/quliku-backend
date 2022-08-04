@@ -26,7 +26,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'role' => $roles[array_rand($roles)],
-            'profile_url' => null,
+            'profile_url' => 'user-default.png',
             'remember_token' => Str::random(10),
         ];
     }
@@ -70,19 +70,6 @@ class UserFactory extends Factory
             return [
                 'role' => 'foreman',
             ];
-        });
-    }
-
-    /**
-     * Configure the model factory
-     *
-     * @return $this
-     */
-
-    public function configure(): static
-    {
-        return $this->afterMaking(function ($user) {
-            $user->profile_url = $user->username . '.jpg';
         });
     }
 }
