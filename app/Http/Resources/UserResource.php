@@ -17,7 +17,7 @@ class UserResource extends JsonResource
     public function getProfileImageUrl(string $name): string
     {
         if ($name == 'user-default.png'){
-            return asset('image/'. $name);
+            return asset('images/'. $name);
         }
         return asset('storage/profile_images/' . $name);
     }
