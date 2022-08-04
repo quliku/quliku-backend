@@ -38,6 +38,8 @@ class ForemanResource extends JsonResource
     public function toArray($request): array|JsonSerializable|Arrayable
     {
         $response =  [
+            'subscription' => $this->subscription_type,
+            'is_work' => $this->is_work,
             'city' => $this->city,
             'wa_number' => $this->wa_number,
             'classification' => $this->classification,
