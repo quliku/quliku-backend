@@ -57,9 +57,14 @@ class User extends Authenticatable
         return $this->hasMany(ForemanImage::class);
     }
 
-    public function projects(): HasMany
+    public function contractorProjects(): HasMany
     {
-        return $this->hasMany(Project::class);
+        return $this->hasMany(Project::class, 'contractor_id');
+    }
+
+    public function foremanProjects(): HasMany
+    {
+        return $this->hasMany(Project::class, 'foreman_id');
     }
 
     public function payments(): HasMany
