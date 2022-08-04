@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('foreman_id');
             $table->string('name');
             $table->string('description')->nullable();
-            $table->string('status');
+            $table->enum('status', ['waiting', 'live-1', 'live-2', 'done', 'reject'])->default('waiting');
             $table->date('start_date');
             $table->date('end_date');
             $table->string('province');
@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('village');
             $table->string('address');
             $table->decimal('project_area', 10, 2);
-            $table->string('payment_type');
+            $table->enum('payment_type', ['daily', 'bulk'])->default('daily');
             $table->string('wa_number');
             $table->timestamps();
         });
