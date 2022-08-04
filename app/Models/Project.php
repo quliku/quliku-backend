@@ -26,6 +26,7 @@ class Project extends Model
         'address',
         'project_area',
         'payment_type',
+        'wa_number',
     ];
 
     public function contractor(): BelongsTo

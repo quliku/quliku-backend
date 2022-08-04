@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('address');
             $table->decimal('project_area', 10, 2);
             $table->string('payment_type');
+            $table->string('wa_number');
             $table->timestamps();
         });
     }
