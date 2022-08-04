@@ -31,7 +31,7 @@ class ForemanDetailFactory extends Factory
             'price' => fake()->numberBetween(100, 1000),
             'bank_type' => $bank_type[array_rand($bank_type)],
             'account_name' => fake()->name,
-            'account_number' => fake()->randomNumber(10),
+            'account_number' => fake()->numerify('############'),
         ];
     }
 }
