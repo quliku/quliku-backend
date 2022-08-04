@@ -24,6 +24,11 @@ class ForemanResource extends JsonResource
         $this->rating = $rating;
     }
 
+    public function setComment(array $comments)
+    {
+        $this->comments = $comments;
+    }
+
     /**
      * Transform the resource into an array.
      *
@@ -56,6 +61,10 @@ class ForemanResource extends JsonResource
 
         if (isset($this->rating)) {
             $response['rating'] = $this->rating;
+        }
+
+        if (isset($this->comments)) {
+            $response['comments'] = $this->comments;
         }
 
         return $response;

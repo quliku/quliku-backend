@@ -31,6 +31,7 @@ Route::prefix('contractor')->group(function () {
     });
 
     Route::post('search/foreman', [ContractorController::class, 'searchForeman']);
+    Route::post('detail/foreman', [ContractorController::class, 'detailForeman']);
 });
 
 Route::prefix('foreman')->group(function () {
