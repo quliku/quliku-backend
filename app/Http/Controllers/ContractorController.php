@@ -28,12 +28,18 @@ class ContractorController extends Controller
             $foremans = User::where('role', 'foreman')->where('name', 'like', '%' . $request->input('name') . '%')->get();
             $response = [];
             foreach ($foremans as $foreman) {
-                $detail = new ForemanResource($foreman->foremanDetail()->first());
-                $rating = $foreman->foremanRatings()->avg('rating')?: 0;
-                $detail->setUser((new UserResource($foreman))->toArray($request));
-                $detail->setRating($rating);
-                $response[] = $detail->toArray($request);
+                $detail_raw = $foreman->foremanDetail()->first();
+                if(!$detail_raw->is_work){
+                    $detail = new ForemanResource($detail_raw);
+                    $rating = $foreman->foremanRatings()->avg('rating')?: 0;
+                    $detail->setUser((new UserResource($foreman))->toArray($request));
+                    $detail->setRating($rating);
+                    $response[] = $detail->toArray($request);
+                }
             }
+            usort($response, function($a, $b) {
+                return ($a['subscription'] < $b['subscription'])? -1 : 1;
+            });
             return $this->successWithData($response);
         } catch (Exception $e) {
             return $this->error($e);
