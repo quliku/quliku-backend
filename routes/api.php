@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthContractorController;
 use App\Http\Controllers\AuthForemanController;
 use App\Http\Controllers\ContractorController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +33,12 @@ Route::prefix('contractor')->group(function () {
 
     Route::post('search/foreman', [ContractorController::class, 'searchForeman']);
     Route::post('detail/foreman', [ContractorController::class, 'detailForeman']);
+
+    Route::prefix('project')->group(function () {
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('create', [ProjectController::class, 'createProject']);
+        });
+    });
 });
 
 Route::prefix('foreman')->group(function () {
