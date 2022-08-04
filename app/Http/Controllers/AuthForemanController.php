@@ -41,7 +41,7 @@ class AuthForemanController extends Controller
             'bank_type' => 'required|string|max:255',
             'account_name' => 'required|string|max:255',
             'account_number' => 'required|string|max:255',
-            'ktp_image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:8192',
+            'ktp_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:8192',
             'certificate_image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:8192',
             'portfolio_image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:8192',
         ];
