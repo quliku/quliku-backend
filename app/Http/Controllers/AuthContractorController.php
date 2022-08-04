@@ -32,7 +32,6 @@ class AuthContractorController extends Controller
             'username' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'role' => 'required|string|max:255',
             'profile_image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:8192',
         ];
 
@@ -54,7 +53,7 @@ class AuthContractorController extends Controller
                 'username' => $request->input('username'),
                 'email' => $request->input('email'),
                 'password' => Hash::make($request->input('password')),
-                'role' => $request->input('role'),
+                'role' => 'contractor',
                 'profile_url' => $filename,
             ]);
 
