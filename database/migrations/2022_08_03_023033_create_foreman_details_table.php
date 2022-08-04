@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('foreman_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
+            $table->enum('subscription_type', ['regular', 'premium'])->default('regular');
+            $table->boolean('is_work')->default(false);
             $table->string('city');
             $table->string('wa_number');
             $table->enum('classification', ['water','infra','engineer','craft'])->default('water');
