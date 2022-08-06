@@ -7,28 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JsonSerializable;
 
-class ForemanResource extends JsonResource
+class ForemanDetailResource extends JsonResource
 {
-    public function setUser(array $user)
-    {
-        $this->user_data = $user;
-    }
-
-    public function setImages(array $images)
-    {
-        $this->images = $images;
-    }
-
-    public function setRating(float $rating)
-    {
-        $this->rating = $rating;
-    }
-
-    public function setComment(array $comments)
-    {
-        $this->comments = $comments;
-    }
-
     /**
      * Transform the resource into an array.
      *
@@ -37,7 +17,7 @@ class ForemanResource extends JsonResource
      */
     public function toArray($request): array|JsonSerializable|Arrayable
     {
-        $response =  [
+        return [
             'subscription' => $this->subscription_type,
             'is_work' => $this->is_work,
             'city' => $this->city,
@@ -52,23 +32,5 @@ class ForemanResource extends JsonResource
             'account_name' => $this->account_name,
             'account_number' => $this->account_number,
         ];
-
-        if (isset($this->user_data)) {
-            $response = array_merge($this->user_data, $response);
-        }
-
-        if (isset($this->images)) {
-            $response['images'] = $this->images;
-        }
-
-        if (isset($this->rating)) {
-            $response['rating'] = $this->rating;
-        }
-
-        if (isset($this->comments)) {
-            $response['comments'] = $this->comments;
-        }
-
-        return $response;
     }
 }

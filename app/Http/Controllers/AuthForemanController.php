@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ForemanImageResource;
-use App\Http\Resources\ForemanResource;
+use App\Http\Resources\ForemanDetailResource;
 use App\Http\Resources\UserResource;
 use App\Models\ForemanDetail;
 use App\Models\ForemanImage;
@@ -117,7 +117,7 @@ class AuthForemanController extends Controller
             $foreman = ForemanDetail::where('user_id', $user->getAuthIdentifier())->first();
             $images = ForemanImage::where('user_id', $user->getAuthIdentifier())->get();
 
-            $response = new ForemanResource($foreman);
+            $response = new ForemanDetailResource($foreman);
             $response->setUser((new UserResource($user))->toArray(request()));
             $response->setImages(ForemanImageResource::collection($images)->toArray(request()));
 

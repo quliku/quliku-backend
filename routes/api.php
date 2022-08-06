@@ -32,7 +32,7 @@ Route::prefix('contractor')->group(function () {
     });
 
     Route::post('search/foreman', [ContractorController::class, 'searchForeman']);
-    Route::post('detail/foreman', [ContractorController::class, 'detailForeman']);
+    Route::get('detail/foreman/{id}', [ContractorController::class, 'detailForeman']);
 
     Route::prefix('project')->group(function () {
         Route::get('detail/{id}', [ProjectController::class, 'detailProject']);

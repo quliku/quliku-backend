@@ -19,7 +19,7 @@ class RatingResource extends JsonResource
     public function toArray($request): array|JsonSerializable|Arrayable
     {
         return [
-            'name' => User::find($this->contractor_id)->name,
+            'name' => $this->contractor->name,
             'rating' => $this->rating,
             'description' => $this->description,
         ];

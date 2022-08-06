@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ForemanImageResource;
-use App\Http\Resources\ForemanResource;
+use App\Http\Resources\ForemanDetailResource;
 use App\Http\Resources\RatingResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -30,7 +30,7 @@ class ContractorController extends Controller
             foreach ($foremans as $foreman) {
                 $detail_raw = $foreman->foremanDetail()->first();
                 if(!$detail_raw->is_work){
-                    $detail = new ForemanResource($detail_raw);
+                    $detail = new ForemanDetailResource($detail_raw);
                     $rating = $foreman->foremanRatings()->avg('rating')?: 0;
                     $detail->setUser((new UserResource($foreman))->toArray($request));
                     $detail->setRating($rating);
@@ -46,26 +46,22 @@ class ContractorController extends Controller
         }
     }
 
-    public function detailForeman(Request $request): JsonResponse
+    public function detailForeman(int $id): JsonResponse
     {
-        $rules = [
-            'foreman_id' => 'required|integer',
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-        if($validator->fails()) return $this->validationError($validator->errors());
-
         try {
-            $foreman = User::find($request->input('foreman_id'));
-            $detail = new ForemanResource($foreman->foremanDetail()->first());
-            $comments = RatingResource::collection($foreman->foremanRatings()->get())->toArray($request);
-            $rating = $foreman->foremanRatings()->avg('rating')?: 0;
-            $images = ForemanImageResource::collection($foreman->foremanImages()->get())->toArray($request);
-            $detail->setUser((new UserResource($foreman))->toArray($request));
-            $detail->setImages($images);
-            $detail->setRating($rating);
-            $detail->setComment($comments);
-            return $this->successWithData($detail->toArray($request));
+            $foreman = User::where([
+                'role' => 'foreman',
+                'id' => $id,
+            ])->with([
+                'foremanDetail',
+                'foremanImages',
+                'foremanRatings' => function($query) {
+                    $query->with('contractor')->orderBy('created_at', 'desc');
+                },
+            ])->first();
+            if(!$foreman) throw new Exception('Foreman not found', 1004);
+            $response = new UserResource($foreman);
+            return $this->successWithData($response);
         } catch (Exception $e) {
             return $this->error($e);
         }
