@@ -20,7 +20,7 @@ return new class extends Migration
             $table->boolean('is_work')->default(false);
             $table->string('city');
             $table->string('wa_number');
-            $table->enum('classification', ['water','infra','engineer','craft'])->default('water');
+            $table->enum('classification', ['water','infra','craft'])->default('water');
             $table->text('description')->nullable();
             $table->integer('experience');
             $table->integer('min_people');

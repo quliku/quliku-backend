@@ -17,7 +17,7 @@ class ForemanDetailFactory extends Factory
      */
     public function definition()
     {
-        $classification = ['water', 'infra', 'engineer', 'craft'];
+        $classification = ['water', 'infra', 'craft'];
         $bank_type = ['BRI', 'BNI', 'BCA', 'Mandiri'];
         return [
             'user_id' => User::factory()->foremanRole()->create()->id,
