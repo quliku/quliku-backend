@@ -27,7 +27,8 @@ class ProjectController extends Controller
             'district' => 'required|string',
             'village' => 'required|string',
             'address' => 'required|string',
-            'project_area' => 'required|numeric',
+            'total_price' => 'required|numeric',
+            'document_url' => 'sometimes|string',
             'payment_type' => 'required|string',
             'wa_number' => 'required|string',
         ];
@@ -44,6 +45,7 @@ class ProjectController extends Controller
 
             $project = Project::create($request->all() + [
                 'contractor_id' => auth()->user()->getAuthIdentifier(),
+                'already_paid' => 0,
                 'status' => 'waiting',
             ]);
 

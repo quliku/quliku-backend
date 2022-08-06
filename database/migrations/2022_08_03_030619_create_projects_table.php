@@ -27,7 +27,11 @@ return new class extends Migration
             $table->string('district');
             $table->string('village');
             $table->string('address');
-            $table->decimal('project_area', 10, 2);
+            $table->decimal('total_price', 14);
+            $table->string('document_url')->nullable();
+            $table->unsignedInteger('fix_people')->nullable();
+            $table->decimal('transportation_fee',14)->nullable();
+            $table->decimal('already_paid', 14)->default(0);
             $table->enum('payment_type', ['daily', 'bulk'])->default('daily');
             $table->string('wa_number');
             $table->timestamps();

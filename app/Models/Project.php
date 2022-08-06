@@ -25,7 +25,11 @@ class Project extends Model
         'district',
         'village',
         'address',
-        'project_area',
+        'total_price',
+        'document_url',
+        'fix_people',
+        'transportation_fee',
+        'already_paid',
         'payment_type',
         'wa_number',
     ];
