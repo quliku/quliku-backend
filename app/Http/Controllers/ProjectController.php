@@ -66,15 +66,9 @@ class ProjectController extends Controller
             $projects = Project::where('foreman_id', auth()->user()->getAuthIdentifier());
             if($request->has('status'))
                 $projects = $projects->where('status', $request->query('status'));
-            $projects = $projects->orderByDesc('created_at')->get();
-            $response = [];
-            foreach ($projects as $project) {
-                $contractor = $project->contractor()->first();
-                $res = new ProjectResource($project);
-                $res->setContractor((new UserResource($contractor))->toArray($request));
-                $response[] = $res->toArray($request);
-            }
-            return $this->successWithData($response);
+            $projects = $projects->orderByDesc('created_at')->with('contractor')->get();
+
+            return $this->successWithData(ProjectResource::collection($projects));
         } catch (Exception $e) {
             return $this->error($e);
         }

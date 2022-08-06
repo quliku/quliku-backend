@@ -11,13 +11,6 @@ use JsonSerializable;
 
 class ProjectResource extends JsonResource
 {
-    private array $contractor;
-
-    public function setContractor(array $contractor)
-    {
-        $this->contractor = $contractor;
-    }
-
     /**
      * Transform the resource into an array.
      *
@@ -27,7 +20,7 @@ class ProjectResource extends JsonResource
      */
     public function toArray($request): array|JsonSerializable|Arrayable
     {
-        $response = [
+        return [
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
@@ -42,12 +35,7 @@ class ProjectResource extends JsonResource
             'project_area' => $this->project_area,
             'payment_type' => $this->payment_type,
             'wa_number' => $this->wa_number,
+            'contractor' => $this->whenLoaded('contractor', new UserResource($this->contractor)),
         ];
-
-        if (isset($this->contractor)) {
-            $response['contractor'] = $this->contractor;
-        }
-
-        return $response;
     }
 }
