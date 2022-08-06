@@ -31,8 +31,10 @@ Route::prefix('contractor')->group(function () {
         Route::get('me', [AuthContractorController::class, 'me']);
     });
 
-    Route::post('search/foreman', [ContractorController::class, 'searchForeman']);
-    Route::get('detail/foreman/{id}', [ContractorController::class, 'detailForeman']);
+    Route::prefix('foreman')->group(function () {
+        Route::get('search', [ContractorController::class, 'searchForeman']);
+        Route::get('detail/{id}', [ContractorController::class, 'detailForeman']);
+    });
 
     Route::prefix('project')->group(function () {
         Route::get('detail/{id}', [ProjectController::class, 'detailProject']);

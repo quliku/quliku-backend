@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
 class ContractorController extends Controller
 {
 
-    public function searchForeman(Request $request): JsonResponse
+    public function searchForeman(Request $request)
     {
         $rules = [
             'name' => 'required|string',
@@ -25,21 +25,18 @@ class ContractorController extends Controller
         if($validator->fails()) return $this->validationError($validator->errors());
 
         try {
-            $foremans = User::where('role', 'foreman')->where('name', 'like', '%' . $request->input('name') . '%')->get();
-            $response = [];
-            foreach ($foremans as $foreman) {
-                $detail_raw = $foreman->foremanDetail()->first();
-                if(!$detail_raw->is_work){
-                    $detail = new ForemanDetailResource($detail_raw);
-                    $rating = $foreman->foremanRatings()->avg('rating')?: 0;
-                    $detail->setUser((new UserResource($foreman))->toArray($request));
-                    $detail->setRating($rating);
-                    $response[] = $detail->toArray($request);
-                }
-            }
-            usort($response, function($a, $b) {
-                return ($a['subscription'] < $b['subscription'])? -1 : 1;
+            $foremans = User::where([
+                ['role', 'foreman'],
+                ['name', 'like', '%' . $request->query('name') . '%'],
+            ])->with([
+                'foremanDetail',
+                'foremanRatings',
+            ])->get()->sortBy(function($foreman) {
+                return $foreman->foremanDetail->subscription_type;
+            })->filter(function($foreman) {
+                return $foreman->foremanDetail->is_work == false;
             });
+            $response = UserResource::collection($foremans);
             return $this->successWithData($response);
         } catch (Exception $e) {
             return $this->error($e);
