@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ForemanImageResource;
 use App\Http\Resources\ForemanDetailResource;
+use App\Http\Resources\ForemanResource;
 use App\Http\Resources\RatingResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -36,7 +37,7 @@ class ContractorController extends Controller
             })->filter(function($foreman) {
                 return $foreman->foremanDetail->is_work == false;
             });
-            $response = UserResource::collection($foremans);
+            $response = ForemanResource::collection($foremans);
             return $this->successWithData($response);
         } catch (Exception $e) {
             return $this->error($e);
@@ -57,7 +58,7 @@ class ContractorController extends Controller
                 },
             ])->first();
             if(!$foreman) throw new Exception('Foreman not found', 1004);
-            $response = new UserResource($foreman);
+            $response = new ForemanResource($foreman);
             return $this->successWithData($response);
         } catch (Exception $e) {
             return $this->error($e);
