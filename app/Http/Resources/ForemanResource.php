@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JsonSerializable;
 
-class SimpleUserResource extends JsonResource
+class ForemanResource extends JsonResource
 {
+
     public function getProfileImageUrl(string $name): string
     {
         if ($name == 'user-default.png'){
@@ -32,6 +33,10 @@ class SimpleUserResource extends JsonResource
             'email' => $this->email,
             'role' => $this->role,
             'profile_url' => $this->getProfileImageUrl($this->profile_url),
+            'rating' => $this->whenLoaded('foremanRatings')->avg('rating') ?? 0,
+            'details' => (new ForemanDetailResource($this->whenLoaded('foremanDetail'))),
+            'images' => ForemanImageResource::collection($this->whenLoaded('foremanImages')),
+            'comments' => RatingResource::collection($this->whenLoaded('foremanRatings')),
         ];
     }
 }

@@ -37,8 +37,8 @@ class ProjectResource extends JsonResource
             'wa_number' => $this->wa_number,
             'created_at' => (new DateTime($this->created_at))->format('Y-m-d H:i:s'),
             'updated_at' => (new DateTime($this->updated_at))->format('Y-m-d H:i:s'),
-            'contractor' => (new SimpleUserResource($this->whenLoaded('contractor'))),
-            'foreman' => (new SimpleUserResource($this->whenLoaded('foreman'))),
+            'contractor' => (new UserResource($this->whenLoaded('contractor'))),
+            'foreman' => (new UserResource($this->whenLoaded('foreman'))),
         ];
     }
 }
