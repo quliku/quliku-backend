@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProjectResource;
+use App\Http\Resources\UserResource;
 use App\Models\Project;
 use App\Models\User;
 use Exception;
@@ -47,6 +48,33 @@ class ProjectController extends Controller
             ]);
 
             return $this->successWithData((new ProjectResource($project)));
+        } catch (Exception $e) {
+            return $this->error($e);
+        }
+    }
+
+    public function listProject(Request $request): JsonResponse
+    {
+        $rules = [
+            'status' => 'sometimes|string',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        try {
+            $projects = Project::where('foreman_id', auth()->user()->getAuthIdentifier());
+            if($request->has('status'))
+                $projects = $projects->where('status', $request->query('status'));
+            $projects = $projects->orderByDesc('created_at')->get();
+            $response = [];
+            foreach ($projects as $project) {
+                $contractor = $project->contractor()->first();
+                $res = new ProjectResource($project);
+                $res->setContractor((new UserResource($contractor))->toArray($request));
+                $response[] = $res->toArray($request);
+            }
+            return $this->successWithData($response);
         } catch (Exception $e) {
             return $this->error($e);
         }

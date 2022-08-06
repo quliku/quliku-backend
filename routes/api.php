@@ -53,5 +53,11 @@ Route::prefix('foreman')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('me', [AuthForemanController::class, 'me']);
     });
+
+    Route::prefix('project')->group(function () {
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::get('list', [ProjectController::class, 'listProject']);
+        });
+    });
 });
 
