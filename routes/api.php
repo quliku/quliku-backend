@@ -35,6 +35,7 @@ Route::prefix('contractor')->group(function () {
     Route::post('detail/foreman', [ContractorController::class, 'detailForeman']);
 
     Route::prefix('project')->group(function () {
+        Route::get('detail/{id}', [ProjectController::class, 'detailProject']);
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('create', [ProjectController::class, 'createProject']);
         });
@@ -55,6 +56,7 @@ Route::prefix('foreman')->group(function () {
     });
 
     Route::prefix('project')->group(function () {
+        Route::get('detail/{id}', [ProjectController::class, 'detailProject']);
         Route::middleware('auth:sanctum')->group(function () {
             Route::get('list', [ProjectController::class, 'listProject']);
         });

@@ -35,7 +35,10 @@ class ProjectResource extends JsonResource
             'project_area' => $this->project_area,
             'payment_type' => $this->payment_type,
             'wa_number' => $this->wa_number,
+            'created_at' => (new DateTime($this->created_at))->format('Y-m-d H:i:s'),
+            'updated_at' => (new DateTime($this->updated_at))->format('Y-m-d H:i:s'),
             'contractor' => $this->whenLoaded('contractor', new UserResource($this->contractor)),
+            'foreman' => $this->whenLoaded('foreman', new UserResource($this->foreman)),
         ];
     }
 }
