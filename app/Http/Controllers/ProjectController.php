@@ -87,4 +87,29 @@ class ProjectController extends Controller
         }
     }
 
+    public function acceptProject(Request $request): JsonResponse
+    {
+        $rules = [
+            'project_id' => 'required|integer|exists:projects,id',
+            'fix_people' => 'required|numeric',
+            'transportation_fee' => 'required|numeric',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        try {
+            $project = Project::where('id', $request->input('project_id'))->first();
+            if ($project->foreman_id != auth()->user()->getAuthIdentifier()) throw new Exception('You are not authorized to accept this project',1005);
+            if ($project->status != 'waiting') throw new Exception('Project is not waiting',1006);
+            $project->status = 'not_paid';
+            $project->fix_people = $request->input('fix_people');
+            $project->transportation_fee = $request->input('transportation_fee');
+            $project->save();
+            return $this->successWithData((new ProjectResource($project)));
+        } catch (Exception $e) {
+            return $this->error($e);
+        }
+    }
+
 }

@@ -61,6 +61,7 @@ Route::prefix('foreman')->group(function () {
         Route::get('detail/{id}', [ProjectController::class, 'detailProject']);
         Route::middleware('auth:sanctum')->group(function () {
             Route::get('list', [ProjectController::class, 'listProject']);
+            Route::post('accept', [ProjectController::class, 'acceptProject']);
         });
     });
 });
