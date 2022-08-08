@@ -18,7 +18,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('project_id')->constrained();
             $table->string('photo_url');
-            $table->decimal('payment_amount', 10);
+            $table->decimal('amount', 14);
+            $table->enum('status', ['waiting', 'verified'])->default('waiting');
             $table->text('description')->nullable();
             $table->timestamps();
         });
