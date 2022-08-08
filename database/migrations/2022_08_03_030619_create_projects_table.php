@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('foreman_id')->constrained('users');
             $table->string('name');
             $table->string('description')->nullable();
-            $table->enum('status', ['waiting', 'live-1', 'live-2', 'done', 'reject'])->default('waiting');
+            $table->enum('status', ['waiting', 'not_paid','ongoing', 'done', 'reject'])->default('waiting');
             $table->date('start_date');
             $table->date('end_date');
             $table->string('province');
