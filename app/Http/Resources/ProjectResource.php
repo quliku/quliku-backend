@@ -25,6 +25,7 @@ class ProjectResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'status' => $this->status,
+            'rejected_reason' => $this->when($this->status == 'reject', $this->reject_reason),
             'start_date' => (new DateTime($this->start_date))->format('Y-m-d'),
             'end_date' => (new DateTime($this->end_date))->format('Y-m-d'),
             'province' => $this->province,

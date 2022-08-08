@@ -63,6 +63,7 @@ Route::prefix('foreman')->group(function () {
         Route::middleware('auth:sanctum')->group(function () {
             Route::get('list', [ProjectController::class, 'listProject']);
             Route::post('accept', [ProjectController::class, 'acceptProject']);
+            Route::post('reject', [ProjectController::class, 'rejectProject']);
         });
     });
 });

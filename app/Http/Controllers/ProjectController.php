@@ -119,4 +119,29 @@ class ProjectController extends Controller
         }
     }
 
+    public function rejectProject(Request $request): JsonResponse
+    {
+        $rules = [
+            'project_id' => 'required|integer|exists:projects,id',
+            'reason' => 'sometimes|string',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        try {
+            $project = Project::where('id', $request->input('project_id'))->first();
+            if ($project->foreman_id != auth()->user()->getAuthIdentifier())
+                throw new Exception('You are not authorized to reject this project',1007);
+            if ($project->status != 'waiting')
+                throw new Exception('Project is not waiting',1008);
+            $project->status = 'reject';
+            $project->reject_reason = $request->input('reason');
+            $project->save();
+            return $this->successWithData((new ProjectResource($project)));
+        } catch (Exception $e) {
+            return $this->error($e);
+        }
+    }
+
 }
