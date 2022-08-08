@@ -39,6 +39,7 @@ Route::prefix('contractor')->group(function () {
     Route::prefix('project')->group(function () {
         Route::get('detail/{id}', [ProjectController::class, 'detailProject']);
         Route::middleware('auth:sanctum')->group(function () {
+            Route::get('list', [ProjectController::class, 'listProject']);
             Route::post('create', [ProjectController::class, 'createProject']);
         });
     });

@@ -65,10 +65,17 @@ class ProjectController extends Controller
         if($validator->fails()) return $this->validationError($validator->errors());
 
         try {
-            $projects = Project::where('foreman_id', auth()->user()->getAuthIdentifier());
+            $user = request()->user();
+            if(!in_array($user->role, ['contractor', 'foreman']))
+                throw new Exception('You are not authorized to get list project',1006);
+
+            $projects = Project::where($user->role.'_id', $user->getAuthIdentifier());
             if($request->has('status'))
                 $projects = $projects->where('status', $request->query('status'));
-            $projects = $projects->orderByDesc('created_at')->with('contractor')->get();
+
+            $projects = $projects->orderByDesc('created_at')
+                ->with($user->role == 'contractor' ? 'foreman' : 'contractor')
+                ->get();
 
             return $this->successWithData(ProjectResource::collection($projects));
         } catch (Exception $e) {
