@@ -86,7 +86,7 @@ class ProjectController extends Controller
     public function detailProject(int $id)
     {
         try {
-            $project = Project::where('id', $id)->with('contractor')->first();
+            $project = Project::where('id', $id)->with(['contractor','foreman'])->first();
             if (!$project) throw new Exception('Project not found',1003);
             return $this->successWithData((new ProjectResource($project)));
         } catch (Exception $e) {
