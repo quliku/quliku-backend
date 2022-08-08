@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PaymentResource;
 use App\Http\Resources\ProjectResource;
 use App\Http\Resources\UserResource;
+use App\Models\Payment;
 use App\Models\Project;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProjectController extends Controller
@@ -139,6 +142,51 @@ class ProjectController extends Controller
             $project->reject_reason = $request->input('reason');
             $project->save();
             return $this->successWithData((new ProjectResource($project)));
+        } catch (Exception $e) {
+            return $this->error($e);
+        }
+    }
+
+    public function paymentProject(Request $request)
+    {
+        $rules = [
+            'project_id' => 'required|integer|exists:projects,id',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
+            'amount' => 'required|numeric',
+            'description' => 'sometimes|string',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        try {
+            if (request()->user()->role != 'contractor')
+                throw new Exception('You don\'t have a contractor role',1009);
+
+            $project = Project::where('id', $request->input('project_id'))->first();
+            if ($project->contractor_id != auth()->user()->getAuthIdentifier())
+                throw new Exception('You are not authorized to payment this project',1010);
+
+            $extension = $request->file('photo')->getClientOriginalExtension();
+            $fileName = time() . rand(1,100) . '.' . $extension;
+
+            Storage::disk('public')
+                ->putFileAs(
+                    'project/'. $request->input('project_id') .'/payment',
+                    $request->file('photo'),
+                    $fileName
+                );
+
+            $payment = Payment::create([
+                'user_id' => auth()->user()->getAuthIdentifier(),
+                'project_id' => $project->id,
+                'photo_url' => $fileName,
+                'amount' => $request->input('amount'),
+                'description' => $request->input('description'),
+                'status' => 'waiting',
+            ]);
+
+            return $this->successWithData((new PaymentResource($payment)));
         } catch (Exception $e) {
             return $this->error($e);
         }
