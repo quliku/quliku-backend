@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PaymentResource;
 use App\Http\Resources\ProjectResource;
-use App\Http\Resources\UserResource;
+use App\Models\ForemanDetail;
 use App\Models\Payment;
 use App\Models\Project;
 use App\Models\User;
+use App\Shared\DBManager;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ProjectController extends Controller
 {
+    public function __construct(private DBManager $db_manager){ }
 
     public function createProject(Request $request): JsonResponse
     {
@@ -86,7 +88,7 @@ class ProjectController extends Controller
         }
     }
 
-    public function detailProject(int $id)
+    public function detailProject(int $id): JsonResponse
     {
         try {
             $project = Project::where('id', $id)->with(['contractor','foreman'])->first();
@@ -108,16 +110,28 @@ class ProjectController extends Controller
         $validator = Validator::make($request->all(), $rules);
         if($validator->fails()) return $this->validationError($validator->errors());
 
+        $this->db_manager->begin();
         try {
             $project = Project::where('id', $request->input('project_id'))->first();
-            if ($project->foreman_id != auth()->user()->getAuthIdentifier()) throw new Exception('You are not authorized to accept this project',1005);
-            if ($project->status != 'waiting') throw new Exception('Project is not waiting',1006);
+
+            if ($project->foreman_id != auth()->user()->getAuthIdentifier())
+                throw new Exception('You are not authorized to accept this project',1005);
+            if ($project->status != 'waiting')
+                throw new Exception('Project is not waiting',1006);
+
             $project->status = 'not_paid';
             $project->fix_people = $request->input('fix_people');
             $project->transportation_fee = $request->input('transportation_fee');
             $project->save();
+
+            $foreman_detail = ForemanDetail::where('user_id', $project->foreman_id)->first();
+            $foreman_detail->is_work = true;
+            $foreman_detail->save();
+
+            $this->db_manager->commit();
             return $this->successWithData((new ProjectResource($project)));
         } catch (Exception $e) {
+            $this->db_manager->rollback();
             return $this->error($e);
         }
     }
@@ -147,7 +161,7 @@ class ProjectController extends Controller
         }
     }
 
-    public function paymentProject(Request $request)
+    public function paymentProject(Request $request): JsonResponse
     {
         $rules = [
             'project_id' => 'required|integer|exists:projects,id',
