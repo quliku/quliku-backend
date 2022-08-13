@@ -33,9 +33,9 @@ Route::prefix('contractor')->group(function () {
 
     Route::prefix('foreman')->group(function () {
         Route::get('search', [ContractorController::class, 'searchForeman']);
-        Route::get('detail/{id}', [ContractorController::class, 'detailForeman']);
         Route::get('recommendation', [ContractorController::class, 'recommendationForeman']);
         Route::middleware('auth:sanctum')->group(function () {
+            Route::get('detail/{id}', [ContractorController::class, 'detailForeman']);
             Route::get('wishlist', [ContractorController::class, 'wishlistForeman']);
             Route::post('wishlist', [ContractorController::class, 'addWishlistForeman']);
             Route::delete('wishlist', [ContractorController::class, 'removeWishlistForeman']);

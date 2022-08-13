@@ -55,7 +55,7 @@ class ContractorController extends Controller
         }
     }
 
-    public function detailForeman(int $id): JsonResponse
+    public function detailForeman(Request $request,int $id): JsonResponse
     {
         try {
             $foreman = User::where([
@@ -68,8 +68,11 @@ class ContractorController extends Controller
                     $query->with('contractor')->orderBy('created_at', 'desc');
                 },
             ])->first();
+            $contractor = User::find(auth()->user()->getAuthIdentifier());
             if(!$foreman) throw new Exception('Foreman not found', 1004);
-            $response = new ForemanResource($foreman);
+            $response = array_merge((new ForemanResource($foreman))->toArray($request), [
+                'in_wishlist' => $foreman->inWishlist($contractor),
+            ]);
             return $this->successWithData($response);
         } catch (Exception $e) {
             return $this->error($e);

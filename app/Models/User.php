@@ -53,6 +53,13 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'wishlists', 'contractor_id', 'foreman_id');
     }
 
+    public function inWishlist(User $user): bool
+    {
+        return $this->belongsToMany(User::class, 'wishlists', 'foreman_id', 'contractor_id')
+            ->where('contractor_id', $user->id)
+            ->exists();
+    }
+
     public function foremanDetail(): HasOne
     {
         return $this->hasOne(ForemanDetail::class);
