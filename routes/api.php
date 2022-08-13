@@ -23,12 +23,10 @@ Route::prefix('contractor')->group(function () {
         Route::post('login', [AuthContractorController::class, 'login']);
         Route::get('unauthenticated', [AuthContractorController::class, 'unauthenticated'])->name('login');
         Route::middleware('auth:sanctum')->group(function () {
+            Route::get('me', [AuthContractorController::class, 'me']);
+            Route::post('update', [AuthContractorController::class, 'update']);
             Route::post('logout', [AuthContractorController::class, 'logout']);
         });
-    });
-
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::get('me', [AuthContractorController::class, 'me']);
     });
 
     Route::prefix('foreman')->group(function () {

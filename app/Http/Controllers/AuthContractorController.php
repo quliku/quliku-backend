@@ -25,6 +25,44 @@ class AuthContractorController extends Controller
         }
     }
 
+    public function update(Request $request): JsonResponse
+    {
+        $rules = [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . Auth::user()->id,
+            'password' => 'sometimes|string|min:6|confirmed',
+            'profile_image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:8192',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        try {
+            $user = Auth::user();
+
+            if($request->has('name'))
+                $user->name = $request->input('name');
+            if($request->has('email'))
+                $user->email = $request->input('email');
+
+            if ($request->has('password')) {
+                $user->password = Hash::make($request->input('password'));
+            }
+            if ($request->hasFile('profile_image')) {
+                $extension = $request->file('profile_image')->getClientOriginalExtension();
+                $filename = $user->username . '.' . $extension;
+
+                Storage::disk('public')->putFileAs('profile_images', $request->file('profile_image'), $filename);
+                $user->profile_url = $filename;
+            }
+            $user->save();
+            $user->refresh();
+            return $this->successWithData((new UserResource($user)));
+        } catch (Exception $e) {
+            return $this->error($e);
+        }
+    }
+
     public function register(Request $request): JsonResponse
     {
         $rules = [
