@@ -42,11 +42,14 @@ class ProjectController extends Controller
         if($validator->fails()) return $this->validationError($validator->errors());
 
         try {
-            $foreman = User::find($request->input('foreman_id'));
-            $detail = $foreman->foremanDetail()->first();
+            $foreman = User::where([
+                'id' => $request->input('foreman_id'),
+                'role' => 'foreman'
+            ])->with('foremanDetail')->first();
 
+            if(!$foreman) throw new Exception('Foreman not found',1014);
             if ($request->user()->role != 'contractor') throw new Exception('You are not authorized to create project',1001);
-            if ($detail->is_work) throw new Exception('Foreman is working in another project',1002);
+            if ($foreman->foremanDetail->is_work) throw new Exception('Foreman is working in another project',1002);
 
             $project = Project::create($request->all() + [
                 'contractor_id' => auth()->user()->getAuthIdentifier(),
