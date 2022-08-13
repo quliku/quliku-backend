@@ -13,7 +13,6 @@ class ReportImage extends Model
     protected $fillable = [
         'report_id',
         'photo_url',
-        'type',
     ];
 
     public function report(): BelongsTo

@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PaymentResource;
 use App\Http\Resources\ProjectResource;
-use App\Models\ForemanDetail;
+use App\Http\Resources\ReportResource;
 use App\Models\Payment;
 use App\Models\Project;
+use App\Models\Report;
+use App\Models\ReportImage;
 use App\Models\User;
 use App\Shared\DBManager;
 use Exception;
@@ -214,6 +216,64 @@ class ProjectController extends Controller
 
             return $this->successWithData((new PaymentResource($payment)));
         } catch (Exception $e) {
+            return $this->error($e);
+        }
+    }
+
+    public function reportProject(Request $request): JsonResponse
+    {
+        $rules = [
+            'project_id' => 'required|integer|exists:projects,id',
+            'percentage' => 'required|integer|between:0,100',
+            'description' => 'sometimes|string',
+            'photos' => 'required',
+            'photos.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:4096',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $this->db_manager->begin();
+
+        try {
+            if (request()->user()->role != 'foreman')
+                throw new Exception('You don\'t have a foreman role',1015);
+
+            $project = Project::where('id', $request->input('project_id'))->first();
+
+            if ($project->foreman_id != auth()->user()->getAuthIdentifier())
+                throw new Exception('You are not authorized to report this project',1016);
+
+            if ($request->hasFile('photos')) {
+                $report = Report::create([
+                    'user_id' => auth()->user()->getAuthIdentifier(),
+                    'project_id' => $project->id,
+                    'percentage' => $request->input('percentage'),
+                    'description' => $request->input('description'),
+                ]);
+
+                $photos = [];
+                foreach ($request->file('photos') as $photo) {
+                    $extension = $photo->getClientOriginalExtension();
+                    $fileName = time() . rand(1,100) . '.' . $extension;
+                    Storage::disk('public')
+                        ->putFileAs(
+                            'project/'. $request->input('project_id') .'/report',
+                            $photo,
+                            $fileName
+                        );
+                    $photos[] = [
+                        'report_id' => $report->id,
+                        'photo_url' => $fileName,
+                    ];
+                }
+                ReportImage::insert($photos);
+            }
+
+            $this->db_manager->commit();
+            return $this->successWithData((new ReportResource($report)));
+        } catch (Exception $e) {
+            $this->db_manager->rollback();
             return $this->error($e);
         }
     }

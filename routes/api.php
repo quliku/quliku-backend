@@ -69,6 +69,7 @@ Route::prefix('foreman')->group(function () {
             Route::get('list', [ProjectController::class, 'listProject']);
             Route::post('accept', [ProjectController::class, 'acceptProject']);
             Route::post('reject', [ProjectController::class, 'rejectProject']);
+            Route::post('report', [ProjectController::class, 'reportProject']);
         });
     });
 });
