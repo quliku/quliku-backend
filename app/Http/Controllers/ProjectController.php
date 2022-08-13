@@ -115,21 +115,24 @@ class ProjectController extends Controller
 
         $this->db_manager->begin();
         try {
-            $project = Project::where('id', $request->input('project_id'))->first();
+            $project = Project::where('id', $request->input('project_id'))
+                ->with('foreman.foremanDetail')
+                ->first();
 
             if ($project->foreman_id != auth()->user()->getAuthIdentifier())
                 throw new Exception('You are not authorized to accept this project',1005);
             if ($project->status != 'waiting')
                 throw new Exception('Project is not waiting',1006);
+            if ($project->foreman->foremanDetail->is_work)
+                throw new Exception('You can\'t accept project when working another project',1007);
 
             $project->status = 'not_paid';
             $project->fix_people = $request->input('fix_people');
             $project->transportation_fee = $request->input('transportation_fee');
             $project->save();
 
-            $foreman_detail = ForemanDetail::where('user_id', $project->foreman_id)->first();
-            $foreman_detail->is_work = true;
-            $foreman_detail->save();
+            $project->foreman->foremanDetail->is_work = true;
+            $project->foreman->foremanDetail->save();
 
             $this->db_manager->commit();
             return $this->successWithData((new ProjectResource($project)));
