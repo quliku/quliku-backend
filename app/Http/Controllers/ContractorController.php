@@ -101,4 +101,84 @@ class ContractorController extends Controller
             return $this->error($e);
         }
     }
+
+    public function wishlistForeman(Request $request): JsonResponse
+    {
+        $rules = [
+            'classification' => 'sometimes|string',
+            'city' => 'sometimes|string',
+        ];
+
+        try {
+            $foremans = User::find(auth()->user()->getAuthIdentifier())
+                ->wishlists()->with([
+                    'foremanDetail',
+                    'foremanRatings'
+                ])->get();
+
+            if ($request->has('classification')) {
+                $foremans = $foremans->filter(function($foreman) use ($request) {
+                    return $foreman->foremanDetail->classification == $request->query('classification');
+                });
+            }
+
+            if ($request->has('city')) {
+                $foremans = $foremans->filter(function($foreman) use ($request) {
+                    return strtolower($foreman->foremanDetail->city) == strtolower($request->query('city'));
+                });
+            }
+
+            $response = ForemanResource::collection($foremans);
+            return $this->successWithData($response);
+        } catch (Exception $e) {
+            return $this->error($e);
+        }
+    }
+
+    public function addWishlistForeman(Request $request): JsonResponse
+    {
+        $rules = [
+            'foreman_id' => 'required|integer|exists:users,id',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        try {
+            $foreman = User::find($request->input('foreman_id'));
+            $contractor = User::find(auth()->user()->getAuthIdentifier());
+
+            if ($contractor->role != 'contractor')
+                throw new Exception('Only contractor can add wishlists', 1011);
+            if ($foreman->role != 'foreman')
+                throw new Exception('Only foreman can add wishlists', 1012);
+
+            $contractor->wishlists()->syncWithoutDetaching($request->input('foreman_id'));
+            return $this->success();
+        } catch (Exception $e) {
+            return $this->error($e);
+        }
+    }
+
+    public function removeWishlistForeman(Request $request): JsonResponse
+    {
+        $rules = [
+            'foreman_id' => 'required|integer|exists:users,id',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        try {
+            $contactor = User::find(auth()->user()->getAuthIdentifier());
+
+            if ($contactor->role != 'contractor')
+                throw new Exception('Only contractor can remove wishlists', 1013);
+
+            $contactor->wishlists()->detach($request->input('foreman_id'));
+            return $this->success();
+        } catch (Exception $e) {
+            return $this->error($e);
+        }
+    }
 }
