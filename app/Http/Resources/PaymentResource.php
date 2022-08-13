@@ -22,7 +22,7 @@ class PaymentResource extends JsonResource
             'user_id' => $this->user_id,
             'project_id' => $this->project_id,
             'photo_url' => $this->photo_url,
-            'amount' => $this->amount,
+            'amount' => (int) $this->amount,
             'status' => $this->status,
             'description' => $this->description,
         ];
