@@ -9,6 +9,11 @@ use JsonSerializable;
 
 class PaymentResource extends JsonResource
 {
+    private function getPaymentPhotoUrl(int $project_id,string $name): string
+    {
+        return asset('storage/project/'. $project_id. '/payment/' . $name);
+    }
+
     /**
      * Transform the resource into an array.
      *
@@ -21,7 +26,7 @@ class PaymentResource extends JsonResource
             'id' => $this->id,
             'user_id' => $this->user_id,
             'project_id' => $this->project_id,
-            'photo_url' => $this->photo_url,
+            'photo_url' => $this->getPaymentPhotoUrl($this->project_id,$this->photo_url),
             'amount' => (int) $this->amount,
             'status' => $this->status,
             'description' => $this->description,

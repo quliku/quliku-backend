@@ -94,7 +94,13 @@ class ProjectController extends Controller
     public function detailProject(int $id): JsonResponse
     {
         try {
-            $project = Project::where('id', $id)->with(['contractor','foreman'])->first();
+            $project = Project::where('id', $id)
+                ->with([
+                    'contractor',
+                    'foreman',
+                    'payments',
+                ])
+                ->first();
             if (!$project) throw new Exception('Project not found',1003);
             return $this->successWithData((new ProjectResource($project)));
         } catch (Exception $e) {
