@@ -2,13 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ForemanImageResource;
-use App\Http\Resources\ForemanDetailResource;
 use App\Http\Resources\ForemanResource;
-use App\Http\Resources\RatingResource;
 use App\Http\Resources\SimpleForemanResource;
-use App\Http\Resources\UserResource;
-use App\Models\ForemanDetail;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -23,24 +18,37 @@ class ContractorController extends Controller
     {
         $rules = [
             'name' => 'required|string',
+            'city' => 'sometimes|string',
+            'classification' => 'sometimes|string',
         ];
 
         $validator = Validator::make($request->all(), $rules);
         if($validator->fails()) return $this->validationError($validator->errors());
 
         try {
-            $foremans = User::where([
-                ['role', 'foreman'],
-                ['name', 'like', '%' . $request->query('name') . '%'],
-            ])->with([
-                'foremanDetail',
-                'foremanRatings',
-            ])->get()->sortBy(function($foreman) {
-                return $foreman->foremanDetail->subscription_type;
-            })->filter(function($foreman) {
-                return $foreman->foremanDetail->is_work == false;
-            });
-            $response = ForemanResource::collection($foremans);
+            $foremans = DB::table('foreman_details')
+                ->join('users', 'foreman_details.user_id', '=', 'users.id')
+                ->leftJoinSub(DB::table('ratings')
+                    ->selectRaw('foreman_id, TRUNCATE(AVG(rating),2) as rating')
+                    ->groupBy('foreman_id'), 'ar', 'ar.foreman_id', '=', 'users.id')
+                ->where('foreman_details.is_work', '=', false)
+                ->where('users.name', 'like', '%' . $request->query('name') . '%')
+                ->orWhere('foreman_details.description', 'like', '%' . $request->query('name') . '%')
+                ->orderBy('foreman_details.subscription_type', 'desc')
+                ->orderBy('ar.rating', 'desc');
+
+            if($request->has('city')) {
+                $foremans = $foremans->where('foreman_details.city', $request->query('city'));
+            }
+
+            if($request->has('classification')) {
+                $foremans = $foremans->where('foreman_details.classification', $request->query('classification'));
+            }
+
+            $foremans = $foremans->get();
+
+            $response = SimpleForemanResource::collection($foremans);
+
             return $this->successWithData($response);
         } catch (Exception $e) {
             return $this->error($e);
