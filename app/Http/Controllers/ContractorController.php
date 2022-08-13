@@ -112,6 +112,9 @@ class ContractorController extends Controller
             'city' => 'sometimes|string',
         ];
 
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
         try {
             $foremans = User::find(auth()->user()->getAuthIdentifier())
                 ->wishlists()->with([
