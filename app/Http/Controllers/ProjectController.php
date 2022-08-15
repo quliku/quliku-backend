@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PaymentResource;
 use App\Http\Resources\ProjectResource;
+use App\Http\Resources\RatingResource;
 use App\Http\Resources\ReportResource;
 use App\Models\Payment;
 use App\Models\Project;
+use App\Models\Rating;
 use App\Models\Report;
 use App\Models\ReportImage;
 use App\Models\User;
@@ -335,6 +337,45 @@ class ProjectController extends Controller
 
             return $this->success();
         } catch (Exception $e) {
+            return $this->error($e);
+        }
+    }
+
+    public function reviewProject(Request $request): JsonResponse
+    {
+        $rules = [
+            'project_id' => 'required|integer|exists:projects,id',
+            'rating' => 'required|integer|between:1,5',
+            'description' => 'sometimes|string',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $this->db_manager->begin();
+        try {
+            $project = Project::where('id', $request->input('project_id'))->first();
+
+            if ($project->contractor_id != auth()->user()->getAuthIdentifier())
+                throw new Exception('You are not authorized to review this project',1022);
+            if ($project->status != 'done')
+                throw new Exception('Only done projects can be reviewed',1023);
+
+            $review = Rating::create([
+                'contractor_id' => $project->contractor_id,
+                'foreman_id' => $project->foreman_id,
+                'project_id' => $project->id,
+                'rating' => $request->input('rating'),
+                'description' => $request->input('description'),
+            ]);
+
+            $project->status = 'review';
+            $project->save();
+
+            $this->db_manager->commit();
+            return $this->success();
+        } catch (Exception $e) {
+            $this->db_manager->rollback();
             return $this->error($e);
         }
     }
