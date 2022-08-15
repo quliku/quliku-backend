@@ -316,9 +316,11 @@ class ProjectController extends Controller
         $validator = Validator::make($request->all(), $rules);
         if($validator->fails()) return $this->validationError($validator->errors());
 
+        $this->db_manager->begin();
         try {
             $project = Project::where('id', $request->input('project_id'))
                 ->with([
+                    'foreman.foremanDetail',
                     'reports' => function($query) {
                         $query->orderByDesc('created_at')->first();
                     }
@@ -335,8 +337,13 @@ class ProjectController extends Controller
             $project->status = 'done';
             $project->save();
 
+            $project->foreman->foremanDetail->is_work = false;
+            $project->foreman->foremanDetail->save();
+
+            $this->db_manager->commit();
             return $this->success();
         } catch (Exception $e) {
+            $this->db_manager->rollback();
             return $this->error($e);
         }
     }
