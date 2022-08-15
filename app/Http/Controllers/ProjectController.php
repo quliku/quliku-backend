@@ -176,6 +176,32 @@ class ProjectController extends Controller
         }
     }
 
+    public function cancelProject(Request $request): JsonResponse
+    {
+        $rules = [
+            'project_id' => 'required|integer|exists:projects,id',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        try {
+            $project = Project::where('id', $request->input('project_id'))->first();
+
+            if ($project->contractor_id != auth()->user()->getAuthIdentifier())
+                throw new Exception('You are not authorized to cancel this project',1017);
+            if ($project->status != 'waiting')
+                throw new Exception('Project is not waiting',1018);
+
+            $project->status = 'reject';
+            $project->reject_reason = "Project canceled by contractor";
+            $project->save();
+            return $this->successWithData((new ProjectResource($project)));
+        } catch (Exception $e) {
+            return $this->error($e);
+        }
+    }
+
     public function paymentProject(Request $request): JsonResponse
     {
         $rules = [
