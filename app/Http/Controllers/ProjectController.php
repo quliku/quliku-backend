@@ -305,4 +305,37 @@ class ProjectController extends Controller
         }
     }
 
+    public function completeProject(Request $request): JsonResponse
+    {
+        $rules = [
+            'project_id' => 'required|integer|exists:projects,id',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        try {
+            $project = Project::where('id', $request->input('project_id'))
+                ->with([
+                    'reports' => function($query) {
+                        $query->orderByDesc('created_at')->first();
+                    }
+                ])
+                ->first();
+
+            if ($project->contractor_id != auth()->user()->getAuthIdentifier())
+                throw new Exception('You are not authorized to complete this project',1019);
+            if ($project->status != 'ongoing')
+                throw new Exception('Only ongoing projects can be completed',1020);
+            if ($project->reports->count() == 0 || $project->reports[0]->percentage != 100)
+                throw new Exception('Project percentage must be 100% to finish project',1021);
+
+            $project->status = 'done';
+            $project->save();
+
+            return $this->success();
+        } catch (Exception $e) {
+            return $this->error($e);
+        }
+    }
 }

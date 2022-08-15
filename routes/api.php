@@ -47,6 +47,7 @@ Route::prefix('contractor')->group(function () {
             Route::post('create', [ProjectController::class, 'createProject']);
             Route::post('cancel', [ProjectController::class, 'cancelProject']);
             Route::post('payment', [ProjectController::class, 'paymentProject']);
+            Route::post('complete', [ProjectController::class, 'completeProject']);
         });
     });
 });
