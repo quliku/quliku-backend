@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PaymentResource;
 use App\Http\Resources\ProjectResource;
+use App\Http\Resources\RatingResource;
 use App\Http\Resources\ReportResource;
 use App\Models\Payment;
 use App\Models\Project;
+use App\Models\Rating;
 use App\Models\Report;
 use App\Models\ReportImage;
 use App\Models\User;
@@ -176,6 +178,32 @@ class ProjectController extends Controller
         }
     }
 
+    public function cancelProject(Request $request): JsonResponse
+    {
+        $rules = [
+            'project_id' => 'required|integer|exists:projects,id',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        try {
+            $project = Project::where('id', $request->input('project_id'))->first();
+
+            if ($project->contractor_id != auth()->user()->getAuthIdentifier())
+                throw new Exception('You are not authorized to cancel this project',1017);
+            if ($project->status != 'waiting')
+                throw new Exception('Project is not waiting',1018);
+
+            $project->status = 'reject';
+            $project->reject_reason = "Project canceled by contractor";
+            $project->save();
+            return $this->successWithData((new ProjectResource($project)));
+        } catch (Exception $e) {
+            return $this->error($e);
+        }
+    }
+
     public function paymentProject(Request $request): JsonResponse
     {
         $rules = [
@@ -279,4 +307,83 @@ class ProjectController extends Controller
         }
     }
 
+    public function completeProject(Request $request): JsonResponse
+    {
+        $rules = [
+            'project_id' => 'required|integer|exists:projects,id',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $this->db_manager->begin();
+        try {
+            $project = Project::where('id', $request->input('project_id'))
+                ->with([
+                    'foreman.foremanDetail',
+                    'reports' => function($query) {
+                        $query->orderByDesc('created_at')->first();
+                    }
+                ])
+                ->first();
+
+            if ($project->contractor_id != auth()->user()->getAuthIdentifier())
+                throw new Exception('You are not authorized to complete this project',1019);
+            if ($project->status != 'ongoing')
+                throw new Exception('Only ongoing projects can be completed',1020);
+            if ($project->reports->count() == 0 || $project->reports[0]->percentage != 100)
+                throw new Exception('Project percentage must be 100% to finish project',1021);
+
+            $project->status = 'done';
+            $project->save();
+
+            $project->foreman->foremanDetail->is_work = false;
+            $project->foreman->foremanDetail->save();
+
+            $this->db_manager->commit();
+            return $this->success();
+        } catch (Exception $e) {
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+    }
+
+    public function reviewProject(Request $request): JsonResponse
+    {
+        $rules = [
+            'project_id' => 'required|integer|exists:projects,id',
+            'rating' => 'required|integer|between:1,5',
+            'description' => 'sometimes|string',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        if($validator->fails()) return $this->validationError($validator->errors());
+
+        $this->db_manager->begin();
+        try {
+            $project = Project::where('id', $request->input('project_id'))->first();
+
+            if ($project->contractor_id != auth()->user()->getAuthIdentifier())
+                throw new Exception('You are not authorized to review this project',1022);
+            if ($project->status != 'done')
+                throw new Exception('Only done projects can be reviewed',1023);
+
+            $review = Rating::create([
+                'contractor_id' => $project->contractor_id,
+                'foreman_id' => $project->foreman_id,
+                'project_id' => $project->id,
+                'rating' => $request->input('rating'),
+                'description' => $request->input('description'),
+            ]);
+
+            $project->status = 'review';
+            $project->save();
+
+            $this->db_manager->commit();
+            return $this->success();
+        } catch (Exception $e) {
+            $this->db_manager->rollback();
+            return $this->error($e);
+        }
+    }
 }

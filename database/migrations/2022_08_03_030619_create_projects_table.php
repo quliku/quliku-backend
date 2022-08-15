@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('reject_reason')->nullable();
-            $table->enum('status', ['waiting', 'not_paid','ongoing', 'done', 'reject'])->default('waiting');
+            $table->enum('status', ['waiting', 'not_paid','ongoing', 'done', 'reject', 'review'])->default('waiting');
             $table->date('start_date');
             $table->date('end_date');
             $table->string('province');
