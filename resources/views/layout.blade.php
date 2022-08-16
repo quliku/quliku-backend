@@ -14,7 +14,7 @@
 <body>
     @include('partials._navbar')
 
-    <div class="container">
+    <div class="container mx-auto">
         @yield('content')
     </div>
     @include('partials._footer')
