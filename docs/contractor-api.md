@@ -378,3 +378,20 @@
     "message": "success"
 }
 ```
+
+### 6. Remove foreman to wishlist
+
+- URL: `/api/contractor/foreman/wishlist`
+- Method: `DELETE`
+- Headers:
+    - Authorization: Bearer **{token}**
+- Request body:
+    - `foreman_id`: integer
+
+**Example success response**
+```json
+{
+    "success": true,
+    "message": "success"
+}
+```
