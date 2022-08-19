@@ -144,3 +144,18 @@
     }
 }
 ```
+
+### 5. Logout
+
+- URL: `/api/contractor/auth/logout`
+- Method: `POST`
+- Headers:
+  - Authorization: Bearer **{token}**
+
+**Example success response**
+```json
+{
+    "success": true,
+    "message": "success"
+}
+```
