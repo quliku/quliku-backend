@@ -44,3 +44,39 @@
     }
 }
 ```
+
+### 2. Login
+
+- URL: `/api/contractor/auth/login`
+- Method: `POST`
+- Request body:
+    - `email`: string, email or username
+    - `password`: string
+
+**Example success response**
+```json
+{
+    "success": true,
+    "message": "success",
+    "data": {
+        "id": 2,
+        "name": "M. Auliya Mirzaq Romdloni",
+        "username": "mirzaq19",
+        "email": "mirzaqarjap@gmail.com",
+        "role": "contractor",
+        "profile_url": "https://quliku.com/storage/profile_images/mirzaq19.jpg",
+        "token": "2|rhUBav6dI0nwN1nbDzx9VOhys6NdRXFIQMN2ERrp"
+    }
+}
+```
+**Example invalid credential error response**
+```json
+{
+    "success": false,
+    "message": "1000:Invalid credentials",
+    "data": {
+        "message": "Invalid credentials",
+        "code": 1000
+    }
+}
+```
