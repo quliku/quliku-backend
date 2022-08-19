@@ -7,12 +7,12 @@
 - URL: `/api/contractor/auth/register`
 - Method: `POST`
 - Request body:
-    - `name`: string
-    - `username`: string
-    - `email`: string
-    - `password`: string
-    - `password_confirmation`: string
-    - `profile_image`: file (opsional)
+  - `name`: string
+  - `username`: string
+  - `email`: string
+  - `password`: string
+  - `password_confirmation`: string
+  - `profile_image`: file (opsional)
 
 **Example success response**
 ```json
@@ -50,8 +50,8 @@
 - URL: `/api/contractor/auth/login`
 - Method: `POST`
 - Request body:
-    - `email`: string, email or username
-    - `password`: string
+  - `email`: string, email or username
+  - `password`: string
 
 **Example success response**
 ```json
@@ -86,7 +86,7 @@
 - URL: `/api/contractor/auth/me`
 - Method: `GET`
 - Headers:
-    - Authorization: Bearer **{token}**
+  - Authorization: Bearer **{token}**
 
 **Example success response**
 ```json
@@ -100,6 +100,47 @@
         "email": "mirzaqarjap@gmail.com",
         "role": "contractor",
         "profile_url": "https://quliku.com/storage/profile_images/mirzaq19.jpg"
+    }
+}
+```
+
+### 4. Update user data
+
+- URL: `/api/contractor/auth/update`
+- Method: `POST`
+- Headers:
+  - Authorization: Bearer **{token}**
+- Request body:
+  - `name`: string
+  - `email`: string
+  - `password`: string (opsional)
+  - `password_confirmation`: string (opsional)
+  - `profile_image`: file (opsional)
+
+**Example success response**
+```json
+{
+    "success": true,
+    "message": "success",
+    "data": {
+        "id": 2,
+        "name": "M. Auliya Mirzaq",
+        "username": "mirzaq19",
+        "email": "mirzaqarjap@gmail.com",
+        "role": "contractor",
+        "profile_url": "https://quliku.com/storage/profile_images/mirzaq19.jpg"
+    }
+}
+```
+**Example validation error response**
+```json
+{
+    "success": false,
+    "message": "Validation Error",
+    "data": {
+        "email": [
+            "The email field is required."
+        ]
     }
 }
 ```
