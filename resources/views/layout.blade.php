@@ -14,10 +14,11 @@
 <body>
     @include('partials._navbar')
 
-    <div class="container mx-auto">
+    <div class="max-w-6xl mx-auto px-4 py-5">
         @yield('content')
+        @include('partials._footer')
     </div>
-    @include('partials._footer')
+
 </body>
 
 </html>
