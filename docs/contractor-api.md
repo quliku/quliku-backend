@@ -238,3 +238,75 @@
     ]
 }
 ```
+
+### 3. Detail foreman
+
+- URL: `/api/contractor/foreman/detail/{id}`
+- Method: `GET`
+- Headers:
+  - Authorization: Bearer **{token}**
+
+**Example success response**
+```json
+{
+    "success": true,
+    "message": "success",
+    "data": {
+        "id": 33,
+        "name": "Budi Purwanto",
+        "username": "budi.purwa",
+        "email": "budi@gmail.com",
+        "role": "foreman",
+        "profile_url": "http://127.0.0.1:8000/images/user-default.png",
+        "rating": 4,
+        "details": {
+            "subscription": "regular",
+            "is_work": 0,
+            "city": "Mojokerto",
+            "wa_number": "082234260055",
+            "classification": "craft",
+            "description": "Saya berpengalaman dalam hiasan eksterior maupun interior bangunan",
+            "experience": 12,
+            "min_people": 40,
+            "max_people": 70,
+            "price": "1200000.00",
+            "bank_type": "BRI",
+            "account_name": "Budi Purwanto",
+            "account_number": "0385562987452"
+        },
+        "images": [
+            {
+                "photo_url": "http://127.0.0.1:8000/storage/foreman_images/budi.purwa-1660385897517.jpg",
+                "type": "ktp"
+            },
+            {
+                "photo_url": "http://127.0.0.1:8000/storage/foreman_images/budi.purwa-1660385897676.jpg",
+                "type": "certificate"
+            },
+            {
+                "photo_url": "http://127.0.0.1:8000/storage/foreman_images/budi.purwa-1660385897690.jpg",
+                "type": "portfolio"
+            }
+        ],
+        "comments": [
+            {
+                "name": "M. Auliya Mirzaq Romdloni",
+                "rating": 4,
+                "description": "Hasil jadinya sangat memuaskan"
+            }
+        ],
+        "in_wishlist": false
+    }
+}
+```
+**Example not found error response**
+```json
+{
+    "success": false,
+    "message": "1004:Foreman not found",
+    "data": {
+        "message": "Foreman not found",
+        "code": 1004
+    }
+}
+```
