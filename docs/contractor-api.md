@@ -80,3 +80,26 @@
     }
 }
 ```
+
+### 3. Get user data
+
+- URL: `/api/contractor/auth/me`
+- Method: `GET`
+- Headers:
+    - Authorization: Bearer **{token}**
+
+**Example success response**
+```json
+{
+    "success": true,
+    "message": "success",
+    "data": {
+        "id": 2,
+        "name": "M. Auliya Mirzaq Romdloni",
+        "username": "mirzaq19",
+        "email": "mirzaqarjap@gmail.com",
+        "role": "contractor",
+        "profile_url": "https://quliku.com/storage/profile_images/mirzaq19.jpg"
+    }
+}
+```
