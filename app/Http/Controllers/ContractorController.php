@@ -32,8 +32,10 @@ class ContractorController extends Controller
                     ->selectRaw('foreman_id, TRUNCATE(AVG(rating),2) as rating')
                     ->groupBy('foreman_id'), 'ar', 'ar.foreman_id', '=', 'users.id')
                 ->where('foreman_details.is_work', '=', false)
-                ->where('users.name', 'like', '%' . $request->query('name') . '%')
-                ->orWhere('foreman_details.description', 'like', '%' . $request->query('name') . '%')
+                ->where(function ($query) use ($request) {
+                    $query->where('users.name', 'like', '%' . $request->query('name') . '%')
+                        ->orWhere('foreman_details.description', 'like', '%' . $request->query('name') . '%');
+                })
                 ->orderBy('foreman_details.subscription_type', 'desc')
                 ->orderBy('ar.rating', 'desc');
 
