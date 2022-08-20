@@ -794,3 +794,46 @@
     }
 }
 ```
+
+### 7. Review project
+
+- URL: `/api/contractor/project/review`
+- Method: `POST`
+- Headers:
+  - Authorization: Bearer **{token}**
+- Request body:
+  - `project_id`: int
+  - `rating`: integer
+  - `description`: string (opsional)
+
+**Example success response**
+```json
+{
+    "success": true,
+    "message": "success"
+}
+```
+
+**Example if project is not yours response**
+```json
+{
+    "success": false,
+    "message": "1022:You are not authorized to review this project",
+    "data": {
+        "message": "You are not authorized to review this project",
+        "code": 1022
+    }
+}
+```
+
+**Example project does not have done status response**
+```json
+{
+    "success": false,
+    "message": "1023:Only done projects can be reviewed",
+    "data": {
+        "message": "Only done projects can be reviewed",
+        "code": 1023
+    }
+}
+```
