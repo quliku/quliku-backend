@@ -104,6 +104,7 @@ class ProjectController extends Controller
                     'foreman',
                     'payments',
                     'reports',
+                    'rating',
                 ])
                 ->first();
             if (!$project) throw new Exception('Project not found',1003);

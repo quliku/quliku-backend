@@ -42,6 +42,11 @@ class ProjectResource extends JsonResource
             'wa_number' => $this->wa_number,
             'created_at' => (new DateTime($this->created_at))->format('Y-m-d H:i:s'),
             'updated_at' => (new DateTime($this->updated_at))->format('Y-m-d H:i:s'),
+            'rating' => $this->when(
+                $this->relationLoaded('rating') && $this->status == 'review',
+                function () {
+                    return new RatingResource($this->rating);
+            }),
             'reports' => ReportResource::collection($this->whenLoaded('reports')),
             'payments' => PaymentResource::collection($this->whenLoaded('payments')),
             'contractor' => (new UserResource($this->whenLoaded('contractor'))),
