@@ -648,3 +648,43 @@
     }
 }
 ```
+
+### 4. Cancel project
+
+- URL: `/api/contractor/project/cancel`
+- Method: `POST`
+- Headers:
+  - Authorization: Bearer **{token}**
+- Request body:
+  - `project_id`: int
+
+**Example success response**
+```json
+{
+    "success": true,
+    "message": "success",
+    "data": {
+        "id": 9,
+        "name": "Bangun kolam renang dalam",
+        "description": "Bangun kolam renang dengan ukuran 5x10 m dengan tema hiasan ornamen kayu",
+        "status": "reject",
+        "rejected_reason": "Project canceled by contractor",
+        "start_date": "2022-06-25",
+        "end_date": "2022-12-30",
+        "province": "jawa timur",
+        "city": "mojokerto",
+        "district": "sooko",
+        "village": "japan",
+        "address": "Perum Japan Raya Jl. Bola Volly A.20",
+        "total_price": 17500000,
+        "document_url": "https://dashboard.binderbyte.com",
+        "fix_people": null,
+        "transportation_fee": null,
+        "already_paid": null,
+        "payment_type": "daily",
+        "wa_number": "087738462285",
+        "created_at": "2022-08-20 10:59:48",
+        "updated_at": "2022-08-20 11:08:59"
+    }
+}
+```
