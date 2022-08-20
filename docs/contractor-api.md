@@ -741,3 +741,56 @@
     }
 }
 ```
+
+### 6. Complete project
+
+- URL: `/api/contractor/project/complete`
+- Method: `POST`
+- Headers:
+  - Authorization: Bearer **{token}**
+- Request body:
+  - `project_id`: int
+
+**Example success response**
+```json
+{
+    "success": true,
+    "message": "success"
+}
+```
+
+**Example if percentage is not 100% response**
+```json
+{
+    "success": false,
+    "message": "1021:Project percentage must be 100% to finish project",
+    "data": {
+        "message": "Project percentage must be 100% to finish project",
+        "code": 1021
+    }
+}
+```
+
+**Example project does not have ongoing status response**
+```json
+{
+    "success": false,
+    "message": "1020:Project percentage must be 100% to finish project",
+    "data": {
+        "message": "Project percentage must be 100% to finish project",
+        "code": 1020
+    }
+}
+```
+
+**Example if project is not yours response**
+```json
+{
+    "success": false,
+    "message": "1019:You are not authorized to complete this project",
+    "data": {
+        "message": "You are not authorized to complete this project",
+        "code": 1019
+    }
+}
+```
