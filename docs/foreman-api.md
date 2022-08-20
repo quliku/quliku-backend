@@ -161,3 +161,18 @@
     }
 }
 ```
+
+### 4. Logout
+
+- URL: `/api/foreman/auth/logout`
+- Method: `POST`
+- Headers:
+    - Authorization: Bearer **{token}**
+
+**Example success response**
+```json
+{
+    "success": true,
+    "message": "success"
+}
+```
