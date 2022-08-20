@@ -1,5 +1,28 @@
 # Contractor API List
 
+## Table of Contents
+* [Authentication](#authentication)
+  1. [Register](#1-register)
+  2. [Login](#2-login)
+  3. [Get User Data](#3-get-user-data)
+  4. [Update User Data](#4-update-user-data)
+  5. [Logout](#5-logout)
+* [Foreman](#foreman)
+  1. [Search Foreman](#1-search-foreman)
+  2. [Recommend Foreman](#2-recommendation-foreman)
+  3. [Detail Foreman](#3-detail-foreman)
+  4. [Wishlist Foreman](#4-wishlist-foreman)
+  5. [Add Foreman to Wishlist](#5-add-foreman-to-wishlist)
+  6. [Remove Foreman from Wishlist](#6-remove-foreman-from-wishlist)
+* [Project](#project)
+  1. [Detail Project](#1-detail-project)
+  2. [List Project](#2-list-project)
+  3. [Create project](#3-create-project)
+  4. [Cancel project](#4-cancel-project)
+  5. [Payment project](#5-payment-project)
+  6. [Complete project](#6-complete-project)
+  7. [Review project](#7-review-project)
+
 ## Authentication
 
 ### 1. Register
@@ -379,7 +402,7 @@
 }
 ```
 
-### 6. Remove foreman to wishlist
+### 6. Remove foreman from wishlist
 
 - URL: `/api/contractor/foreman/wishlist`
 - Method: `DELETE`
