@@ -559,3 +559,92 @@
     ]
 }
 ```
+
+### 3. Create project
+
+- URL: `/api/contractor/project/create`
+- Method: `POST`
+- Headers:
+  - Authorization: Bearer **{token}**
+- Request body:
+  - `foreman_id`: int
+  - `name`: string
+  - `description`: string (opsional)
+  - `start_date`: date [YYYY-MM-DD]
+  - `end_date`: date [YYYY-MM-DD]
+  - `province`: string
+  - `city`: string
+  - `district`: string
+  - `village`: string
+  - `address`: string
+  - `total_price`: integer
+  - `document_url`: string (opsional)
+  - `payment_type`: string [ `bulk` | `daily` ]
+  - `wa_number`: string
+
+**Example success response**
+```json
+{
+    "success": true,
+    "message": "success",
+    "data": {
+        "id": 9,
+        "name": "Bangun kolam renang dalam",
+        "description": "Bangun kolam renang dengan ukuran 5x10 m dengan tema hiasan ornamen kayu",
+        "status": "waiting",
+        "start_date": "2022-06-25",
+        "end_date": "2022-12-30",
+        "province": "jawa timur",
+        "city": "mojokerto",
+        "district": "sooko",
+        "village": "japan",
+        "address": "Perum Japan Raya Jl. Bola Volly A.20",
+        "total_price": 17500000,
+        "document_url": "https://dashboard.binderbyte.com",
+        "fix_people": null,
+        "transportation_fee": null,
+        "already_paid": null,
+        "payment_type": "daily",
+        "wa_number": "087738462285",
+        "created_at": "2022-08-20 10:59:48",
+        "updated_at": "2022-08-20 10:59:48"
+    }
+}
+```
+
+**Example foreman not found error response**
+```json
+{
+    "success": false,
+    "message": "Validation Error",
+    "data": {
+        "foreman_id": [
+            "The selected foreman id is invalid."
+        ]
+    }
+}
+```
+
+**Example user does not have a contractor role response**
+```json
+{
+    "success": false,
+    "message": "1001:You are not authorized to create project",
+    "data": {
+        "message": "You are not authorized to create project",
+        "code": 1001
+    }
+}
+```
+
+**Example if foreman work in another project response**
+```json
+{
+    "success": false,
+    "message": "1002:Foreman is working in another project",
+    "data": {
+        "message": "Foreman is working in another project",
+        "code": 1002
+    }
+}
+```
