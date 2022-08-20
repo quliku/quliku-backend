@@ -340,3 +340,88 @@
     ]
 }
 ```
+
+### 3. Accept project
+
+- URL: `/api/foreman/project/accept`
+- Method: `POST`
+- Headers:
+  - Authorization: Bearer **{token}**
+- Request body:
+  - `project_id`: integer
+  - `fix_people`: integer
+  - `transportation_fee`: integer
+
+**Example success response**
+```json
+{
+    "success": true,
+    "message": "success",
+    "data": {
+        "id": 10,
+        "name": "Bangun kolam renang dalam",
+        "description": "Bangun kolam renang dengan ukuran 5x10 m dengan tema hiasan ornamen kayu",
+        "status": "not_paid",
+        "start_date": "2022-06-25",
+        "end_date": "2022-12-30",
+        "province": "jawa timur",
+        "city": "mojokerto",
+        "district": "sooko",
+        "village": "japan",
+        "address": "Perum Japan Raya Jl. Bola Volly A.20",
+        "total_price": 17500000,
+        "document_url": "https://dashboard.binderbyte.com",
+        "fix_people": 5,
+        "transportation_fee": 1200000,
+        "already_paid": null,
+        "payment_type": "daily",
+        "wa_number": "087738462285",
+        "created_at": "2022-08-20 13:17:54",
+        "updated_at": "2022-08-20 13:18:38",
+        "foreman": {
+            "id": 34,
+            "name": "Prabu Kuncoro",
+            "username": "prab.kun",
+            "email": "prabu@gmail.com",
+            "role": "foreman",
+            "profile_url": "http://127.0.0.1:8000/storage/profile_images/prab.kun.png"
+        }
+    }
+}
+```
+
+**Example project is not yours response**
+```json
+{
+    "success": false,
+    "message": "1005:You are not authorized to accept this project",
+    "data": {
+        "message": "You are not authorized to accept this project",
+        "code": 1005
+    }
+}
+```
+
+**Example project status is not waiting response**
+```json
+{
+    "success": false,
+    "message": "1006:Project is not waiting",
+    "data": {
+        "message": "Project is not waiting",
+        "code": 1006
+    }
+}
+```
+
+**Example cannot accept project when doing other project response**
+```json
+{
+    "success": false,
+    "message": "1007:You can't accept project when working another project",
+    "data": {
+        "message": "You can't accept project when working another project",
+        "code": 1007
+    }
+}
+```
