@@ -291,3 +291,52 @@
     }
 }
 ```
+
+### 2. List project
+
+- URL: `/api/foreman/project/list`
+- Method: `GET`
+- Headers:
+    - Authorization: Bearer **{token}**
+- Parameters:
+    - `status`: string [ `waiting` | `not_paid` | `ongoing` | `done` | `reject` | `review`] (opsional)
+
+**Example success response**
+```json
+{
+    "success": true,
+    "message": "success",
+    "data": [
+        {
+            "id": 8,
+            "name": "Bangun pager besi",
+            "description": "Nambah pager besi depan rumah",
+            "status": "review",
+            "start_date": "2022-09-25",
+            "end_date": "2022-10-24",
+            "province": "Jawa Timur",
+            "city": "Mojokerto",
+            "district": "Sooko",
+            "village": "Japan",
+            "address": "Perum Japan Raya Jl. Bola Volly A.20",
+            "total_price": 7000000,
+            "document_url": "https://dashboard.binderbyte.com",
+            "fix_people": 3,
+            "transportation_fee": 500000,
+            "already_paid": null,
+            "payment_type": "bulk",
+            "wa_number": "087738462285",
+            "created_at": "2022-08-13 18:15:32",
+            "updated_at": "2022-08-15 18:33:42",
+            "foreman": {
+                "id": 33,
+                "name": "Budi Purwanto",
+                "username": "budi.purwa",
+                "email": "budi@gmail.com",
+                "role": "foreman",
+                "profile_url": "http://127.0.0.1:8000/images/user-default.png"
+            }
+        }
+    ]
+}
+```
