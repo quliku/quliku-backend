@@ -50,6 +50,8 @@ class AuthForemanController extends Controller
 
         $this->db_manager->begin();
         try {
+            if (!in_array($request->input('classification'), ['water', 'infra', 'craft']))
+                throw new Exception('Invalid classification',1024);
             if ($request->hasFile('profile_image')) {
                 $extension = $request->file('profile_image')->getClientOriginalExtension();
                 $filename = $request->input('username') . '.' . $extension;
