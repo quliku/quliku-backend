@@ -1,5 +1,18 @@
 # Foreman API List
 
+## Table of Contents
+* [Authentication](#authentication)
+    1. [Register](#1-register)
+    2. [Login](#2-login)
+    3. [Get User Data](#3-get-user-data)
+    4. [Logout](#4-logout)
+* [Project](#project)
+    1. [Detail Project](#1-detail-project)
+    2. [List Project](#2-list-project)
+    3. [Accept project](#3-accept-project)
+    4. [Reject project](#4-reject-project)
+    5. [Report project](#5-report-project)
+
 ## Authentication
 
 ### 1. Register
