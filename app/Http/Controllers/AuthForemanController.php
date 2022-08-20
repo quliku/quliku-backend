@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ForemanImageResource;
 use App\Http\Resources\ForemanDetailResource;
+use App\Http\Resources\ForemanResource;
 use App\Http\Resources\UserResource;
 use App\Models\ForemanDetail;
 use App\Models\ForemanImage;
@@ -115,13 +116,14 @@ class AuthForemanController extends Controller
     public function me(): JsonResponse
     {
         try {
-            $user = Auth::user();
-            $foreman = ForemanDetail::where('user_id', $user->getAuthIdentifier())->first();
-            $images = ForemanImage::where('user_id', $user->getAuthIdentifier())->get();
+            $foreman = User::where('id',Auth::user()->getAuthIdentifier())
+                ->with([
+                    'foremanDetail',
+                    'foremanImages',
+                    'foremanRatings'
+                ])->first();
 
-            $response = new ForemanDetailResource($foreman);
-            $response->setUser((new UserResource($user))->toArray(request()));
-            $response->setImages(ForemanImageResource::collection($images)->toArray(request()));
+            $response = new ForemanResource($foreman);
 
             return $this->successWithData($response);
         } catch (Exception $e) {
