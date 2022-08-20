@@ -167,7 +167,7 @@ class ProjectController extends Controller
         try {
             $project = Project::where('id', $request->input('project_id'))->first();
             if ($project->foreman_id != auth()->user()->getAuthIdentifier())
-                throw new Exception('You are not authorized to reject this project',1007);
+                throw new Exception('You are not authorized to reject this project',1025);
             if ($project->status != 'waiting')
                 throw new Exception('Project is not waiting',1008);
             $project->status = 'reject';
