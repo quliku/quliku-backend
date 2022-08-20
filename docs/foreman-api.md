@@ -7,26 +7,26 @@
 - URL: `/api/foreman/auth/register`
 - Method: `POST`
 - Request body:
-    - `name`: string
-    - `username`: string
-    - `email`: string
-    - `password`: string
-    - `password_confirmation`: string
-    - `profile_image`: file, max 8MB (opsional)
-    - `city`: string,
-    - `wa_number`: string
-    - `classification`: string [`water` | `infra` | `craft`]
-    - `description`: string
-    - `experience`: string
-    - `min_people`: string
-    - `max_people`: string
-    - `price`: string
-    - `bank_type`: string
-    - `account_name`: string
-    - `account_number`: string
-    - `ktp_image`: file, max size 8MB
-    - `certificate_image`: file, max size 8MB (opsional)
-    - `portfolio_image`: file, max size 8MB (opsional)
+  - `name`: string
+  - `username`: string
+  - `email`: string
+  - `password`: string
+  - `password_confirmation`: string
+  - `profile_image`: file, max 8MB (opsional)
+  - `city`: string,
+  - `wa_number`: string
+  - `classification`: string [`water` | `infra` | `craft`]
+  - `description`: string
+  - `experience`: string
+  - `min_people`: string
+  - `max_people`: string
+  - `price`: string
+  - `bank_type`: string
+  - `account_name`: string
+  - `account_number`: string
+  - `ktp_image`: file, max size 8MB
+  - `certificate_image`: file, max size 8MB (opsional)
+  - `portfolio_image`: file, max size 8MB (opsional)
 
 **Example success response**
 ```json
@@ -67,6 +67,43 @@
     "data": {
         "message": "Invalid classification",
         "code": 1024
+    }
+}
+```
+
+### 2. Login
+
+- URL: `/api/foreman/auth/login`
+- Method: `POST`
+- Request body:
+  - `email`: string, email or username
+  - `password`: string
+
+**Example success response**
+```json
+{
+    "success": true,
+    "message": "success",
+    "data": {
+        "id": 34,
+        "name": "Prabu Kuncoro",
+        "username": "prab.kun",
+        "email": "prabu@gmail.com",
+        "role": "foreman",
+        "profile_url": "http://127.0.0.1:8000/storage/profile_images/prab.kun.png",
+        "token": "25|TIY4VIyEwU1Vy26eesJq5tr4i73XvYVRti1XtACs"
+    }
+}
+```
+
+**Example invalid credentials response**
+```json
+{
+    "success": false,
+    "message": "1000:Invalid credentials",
+    "data": {
+        "message": "Invalid credentials",
+        "code": 1000
     }
 }
 ```
