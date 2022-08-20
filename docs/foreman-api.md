@@ -107,3 +107,57 @@
     }
 }
 ```
+
+### 3. Get user data
+
+- URL: `/api/foreman/auth/me`
+- Method: `GET`
+- Headers:
+  - Authorization: Bearer **{token}**
+
+**Example success response**
+```json
+{
+    "success": true,
+    "message": "success",
+    "data": {
+        "id": 34,
+        "name": "Prabu Kuncoro",
+        "username": "prab.kun",
+        "email": "prabu@gmail.com",
+        "role": "foreman",
+        "profile_url": "http://127.0.0.1:8000/storage/profile_images/prab.kun.png",
+        "rating": 0,
+        "details": {
+            "subscription": "regular",
+            "is_work": 0,
+            "city": "mojokerto",
+            "wa_number": "082234260055",
+            "classification": "water",
+            "description": "Saya berpengalaman dalam hiasan eksterior maupun interior bangunan",
+            "experience": 12,
+            "min_people": 40,
+            "max_people": 70,
+            "price": "1200000.00",
+            "bank_type": "BRI",
+            "account_name": "Prabu Kuncoro",
+            "account_number": "0923743292384"
+        },
+        "images": [
+            {
+                "photo_url": "http://127.0.0.1:8000/storage/foreman_images/prab.kun-1660972375523.png",
+                "type": "ktp"
+            },
+            {
+                "photo_url": "http://127.0.0.1:8000/storage/foreman_images/prab.kun-1660972375305.png",
+                "type": "certificate"
+            },
+            {
+                "photo_url": "http://127.0.0.1:8000/storage/foreman_images/prab.kun-1660972375485.png",
+                "type": "portfolio"
+            }
+        ],
+        "comments": []
+    }
+}
+```
