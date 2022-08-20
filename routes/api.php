@@ -58,12 +58,9 @@ Route::prefix('foreman')->group(function () {
         Route::post('register', [AuthForemanController::class, 'register']);
         Route::post('login', [AuthContractorController::class, 'login']);
         Route::middleware('auth:sanctum')->group(function () {
+            Route::get('me', [AuthForemanController::class, 'me']);
             Route::post('logout', [AuthContractorController::class, 'logout']);
         });
-    });
-
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::get('me', [AuthForemanController::class, 'me']);
     });
 
     Route::prefix('project')->group(function () {
