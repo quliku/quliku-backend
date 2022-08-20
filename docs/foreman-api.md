@@ -490,3 +490,58 @@
     }
 }
 ```
+
+### 5. Report project
+
+- URL: `/api/foreman/project/report`
+- Method: `POST`
+- Headers:
+  - Authorization: Bearer **{token}**
+- Request body:
+  - `project_id`: integer
+  - `percentage`: integer
+  - `description`: string (opsional)
+  - `photos`: array of file, each file max 4MB
+
+**Example success response**
+```json
+{
+    "success": true,
+    "message": "success",
+    "data": {
+        "id": 11,
+        "user_id": 34,
+        "project_id": 10,
+        "percentage": "100",
+        "description": "Penambahan hiasan tema kayu selesai. Pembangunan selesai",
+        "images": [
+            "http://127.0.0.1:8000/storage/project/10/report/166097765838.png",
+            "http://127.0.0.1:8000/storage/project/10/report/166097765859.png"
+        ]
+    }
+}
+```
+
+**Example project is not yours response**
+```json
+{
+    "success": false,
+    "message": "1016:You are not authorized to report this project",
+    "data": {
+        "message": "You are not authorized to report this project",
+        "code": 1016
+    }
+}
+```
+
+**Example user doesn't have foreman role response**
+```json
+{
+    "success": false,
+    "message": "1015:You don't have a foreman role",
+    "data": {
+        "message": "You don't have a foreman role",
+        "code": 1015
+    }
+}
+```
