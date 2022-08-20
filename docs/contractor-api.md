@@ -688,3 +688,56 @@
     }
 }
 ```
+
+### 5. Payment Project
+
+- URL: `/api/contractor/project/payment`
+- Method: `POST`
+- Headers:
+  - Authorization: Bearer **{token}**
+- Request body:
+  - `project_id`: int
+  - `photo_url`: file, max size 4MB
+  - `amount`: integer
+  - `description`: string (opsional)
+
+**Example success response**
+```json
+{
+    "success": true,
+    "message": "success",
+    "data": {
+        "id": 3,
+        "user_id": 31,
+        "project_id": 9,
+        "photo_url": "http://127.0.0.1:8000/storage/project/9/payment/166096909781.jpg",
+        "amount": 1200000,
+        "status": "waiting",
+        "description": "Transfer 1200000 fee transport"
+    }
+}
+```
+
+**Example user does not have a contractor role response**
+```json
+{
+    "success": false,
+    "message": "1009:You are not authorized to create project",
+    "data": {
+        "message": "You are not authorized to create project",
+        "code": 1009
+    }
+}
+```
+
+**Example if project is not yours response**
+```json
+{
+    "success": false,
+    "message": "1010:You are not authorized to payment this project",
+    "data": {
+        "message": "You are not authorized to payment this project",
+        "code": 1010
+    }
+}
+```
