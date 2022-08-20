@@ -176,3 +176,118 @@
     "message": "success"
 }
 ```
+
+## Project
+
+### 1. Detail project
+
+- URL: `/api/foreman/project/detail/{id}`
+- Method: `GET`
+
+**Example success response**
+```json
+{
+    "success": true,
+    "message": "success",
+    "data": {
+        "id": 8,
+        "name": "Bangun pager besi",
+        "description": "Nambah pager besi depan rumah",
+        "status": "review",
+        "start_date": "2022-09-25",
+        "end_date": "2022-10-24",
+        "province": "Jawa Timur",
+        "city": "Mojokerto",
+        "district": "Sooko",
+        "village": "Japan",
+        "address": "Perum Japan Raya Jl. Bola Volly A.20",
+        "total_price": 7000000,
+        "document_url": "https://dashboard.binderbyte.com",
+        "fix_people": 3,
+        "transportation_fee": 500000,
+        "already_paid": null,
+        "payment_type": "bulk",
+        "wa_number": "087738462285",
+        "created_at": "2022-08-13 18:15:32",
+        "updated_at": "2022-08-15 18:33:42",
+        "rating": {
+            "name": "M. Auliya Mirzaq Romdloni",
+            "rating": 4,
+            "description": "Hasil jadinya sangat memuaskan"
+        },
+        "reports": [
+            {
+                "id": 5,
+                "user_id": 33,
+                "project_id": 8,
+                "percentage": 20,
+                "description": "Sejauh ini berjalan lancar",
+                "images": [
+                    "http://127.0.0.1:8000/storage/project/8/report/166039843998.png",
+                    "http://127.0.0.1:8000/storage/project/8/report/166039843918.png"
+                ]
+            },
+            {
+                "id": 6,
+                "user_id": 33,
+                "project_id": 8,
+                "percentage": 30,
+                "description": "Ada beberapa kendala pada batu bata, jadi cukup memakan waktu",
+                "images": [
+                    "http://127.0.0.1:8000/storage/project/8/report/166039870934.png",
+                    "http://127.0.0.1:8000/storage/project/8/report/166039870981.png"
+                ]
+            },
+            {
+                "id": 7,
+                "user_id": 33,
+                "project_id": 8,
+                "percentage": 100,
+                "description": "Pembangunan sudah selesai",
+                "images": [
+                    "http://127.0.0.1:8000/storage/project/8/report/166056060220.png"
+                ]
+            }
+        ],
+        "payments": [
+            {
+                "id": 1,
+                "user_id": 31,
+                "project_id": 8,
+                "photo_url": "http://127.0.0.1:8000/storage/project/8/payment/166039054194.jpg",
+                "amount": 1000000,
+                "status": "verified",
+                "description": "Transfer 1000000"
+            }
+        ],
+        "contractor": {
+            "id": 31,
+            "name": "M. Auliya Mirzaq Romdloni",
+            "username": "mirzaq19",
+            "email": "mirzaqarjap@gmail.com",
+            "role": "contractor",
+            "profile_url": "http://127.0.0.1:8000/images/user-default.png"
+        },
+        "foreman": {
+            "id": 33,
+            "name": "Budi Purwanto",
+            "username": "budi.purwa",
+            "email": "budi@gmail.com",
+            "role": "foreman",
+            "profile_url": "http://127.0.0.1:8000/images/user-default.png"
+        }
+    }
+}
+```
+
+**Example not found error response**
+```json
+{
+    "success": false,
+    "message": "1003:Project not found",
+    "data": {
+        "message": "Project not found",
+        "code": 1003
+    }
+}
+```
