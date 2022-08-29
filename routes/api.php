@@ -59,6 +59,8 @@ Route::prefix('foreman')->group(function () {
         Route::post('login', [AuthContractorController::class, 'login']);
         Route::middleware('auth:sanctum')->group(function () {
             Route::get('me', [AuthForemanController::class, 'me']);
+            Route::post('activate', [AuthForemanController::class, 'activate']);
+            Route::post('deactivate', [AuthForemanController::class, 'deactivate']);
             Route::post('logout', [AuthContractorController::class, 'logout']);
         });
     });

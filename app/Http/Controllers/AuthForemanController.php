@@ -129,4 +129,42 @@ class AuthForemanController extends Controller
         }
     }
 
+    public function activate(): JsonResponse
+    {
+        try {
+            $foreman = User::where('id',auth()->user()->getAuthIdentifier())
+                ->where('role', 'foreman')
+                ->with('foremanDetail')
+                ->first();
+
+            if (!$foreman) throw new Exception('Foreman not found',1026);
+            if ($foreman->foremanDetail->status == 'active') throw new Exception('Foreman already active',1027);
+            if ($foreman->foremanDetail->is_work) throw new Exception('Cannot activate status when working in project',1028);
+
+            $foreman->foremanDetail->status = 'active';
+            $foreman->foremanDetail->save();
+            return $this->success();
+        } catch (Exception $e) {
+            return $this->error($e);
+        }
+    }
+
+    public function deactivate(): JsonResponse
+    {
+        try {
+            $foreman = User::where('id',auth()->user()->getAuthIdentifier())
+                ->where('role', 'foreman')
+                ->with('foremanDetail')
+                ->first();
+
+            if (!$foreman) throw new Exception('Foreman not found',1029);
+            if ($foreman->foremanDetail->status == 'inactive') throw new Exception('Foreman already inactive',1030);
+
+            $foreman->foremanDetail->status = 'inactive';
+            $foreman->foremanDetail->save();
+            return $this->success();
+        } catch (Exception $e) {
+            return $this->error($e);
+        }
+    }
 }
