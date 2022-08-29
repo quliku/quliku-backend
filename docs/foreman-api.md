@@ -33,7 +33,6 @@
   - `experience`: string
   - `min_people`: string
   - `max_people`: string
-  - `price`: string
   - `bank_type`: string
   - `account_name`: string
   - `account_number`: string
@@ -151,7 +150,6 @@
             "experience": 12,
             "min_people": 40,
             "max_people": 70,
-            "price": "1200000.00",
             "bank_type": "BRI",
             "account_name": "Prabu Kuncoro",
             "account_number": "0923743292384"
