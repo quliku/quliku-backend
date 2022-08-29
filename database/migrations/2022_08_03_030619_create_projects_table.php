@@ -30,7 +30,6 @@ return new class extends Migration
             $table->string('address');
             $table->decimal('total_price', 14);
             $table->string('document_url')->nullable();
-            $table->unsignedInteger('fix_people')->nullable();
             $table->decimal('transportation_fee',14)->nullable();
             $table->decimal('already_paid', 14)->default(0);
             $table->enum('payment_type', ['daily', 'bulk'])->default('daily');

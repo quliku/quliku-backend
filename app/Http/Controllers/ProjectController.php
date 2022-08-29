@@ -118,7 +118,6 @@ class ProjectController extends Controller
     {
         $rules = [
             'project_id' => 'required|integer|exists:projects,id',
-            'fix_people' => 'required|numeric',
             'transportation_fee' => 'required|numeric',
         ];
 
@@ -139,7 +138,6 @@ class ProjectController extends Controller
                 throw new Exception('You can\'t accept project when working another project',1007);
 
             $project->status = 'not_paid';
-            $project->fix_people = $request->input('fix_people');
             $project->transportation_fee = $request->input('transportation_fee');
             $project->save();
 

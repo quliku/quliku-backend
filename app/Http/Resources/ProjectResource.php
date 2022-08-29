@@ -35,7 +35,6 @@ class ProjectResource extends JsonResource
             'address' => $this->address,
             'total_price' => (float) $this->total_price,
             'document_url' => $this->document_url,
-            'fix_people' => $this->fix_people ? ((int) $this->fix_people) : null,
             'transportation_fee' => (float) $this->transportation_fee ?: null,
             'already_paid' => (float) $this->already_paid ?: null,
             'payment_type' => $this->payment_type,

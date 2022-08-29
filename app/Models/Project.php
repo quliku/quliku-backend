@@ -27,7 +27,6 @@ class Project extends Model
         'address',
         'total_price',
         'document_url',
-        'fix_people',
         'transportation_fee',
         'already_paid',
         'payment_type',
