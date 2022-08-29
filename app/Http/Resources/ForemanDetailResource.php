@@ -19,6 +19,7 @@ class ForemanDetailResource extends JsonResource
     {
         return [
             'subscription' => $this->subscription_type,
+            'status' => $this->status,
             'is_work' => $this->is_work,
             'city' => $this->city,
             'wa_number' => $this->wa_number,

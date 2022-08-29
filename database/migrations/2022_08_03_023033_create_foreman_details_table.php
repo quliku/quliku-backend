@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->enum('subscription_type', ['regular', 'premium'])->default('regular');
+            $table->enum('status', ['active', 'inactive'])->default('active');
             $table->boolean('is_work')->default(false);
             $table->string('city');
             $table->string('wa_number');

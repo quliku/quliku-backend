@@ -142,6 +142,7 @@ class ProjectController extends Controller
             $project->save();
 
             $project->foreman->foremanDetail->is_work = true;
+            $project->foreman->foremanDetail->status = 'inactive';
             $project->foreman->foremanDetail->save();
 
             $this->db_manager->commit();
@@ -337,6 +338,7 @@ class ProjectController extends Controller
             $project->save();
 
             $project->foreman->foremanDetail->is_work = false;
+            $project->foreman->foremanDetail->status = 'active';
             $project->foreman->foremanDetail->save();
 
             $this->db_manager->commit();

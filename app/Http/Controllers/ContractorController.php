@@ -31,7 +31,7 @@ class ContractorController extends Controller
                 ->leftJoinSub(DB::table('ratings')
                     ->selectRaw('foreman_id, TRUNCATE(AVG(rating),2) as rating')
                     ->groupBy('foreman_id'), 'ar', 'ar.foreman_id', '=', 'users.id')
-                ->where('foreman_details.is_work', '=', false)
+                ->where('foreman_details.status', '=', 'active')
                 ->where(function ($query) use ($request) {
                     $query->where('users.name', 'like', '%' . $request->query('name') . '%')
                         ->orWhere('foreman_details.description', 'like', '%' . $request->query('name') . '%');
@@ -89,11 +89,11 @@ class ContractorController extends Controller
                 ->leftJoinSub(DB::table('ratings')
                     ->selectRaw('foreman_id, TRUNCATE(AVG(rating),2) as rating')
                     ->groupBy('foreman_id'), 'ar', 'ar.foreman_id', '=', 'users.id')
-                ->where('foreman_details.is_work', '=', false)
+                ->where('foreman_details.status', '=', 'active')
                 ->orderBy('foreman_details.subscription_type', 'desc')
                 ->orderBy('ar.rating', 'desc')
                 ->select('users.id', 'users.name', 'users.username', 'users.email', 'users.role',
-                    'users.profile_url', 'ar.rating', 'foreman_details.subscription_type', 'foreman_details.is_work',
+                    'users.profile_url', 'ar.rating', 'foreman_details.subscription_type', 'foreman_details.status',
                     'foreman_details.city', 'foreman_details.wa_number', 'foreman_details.classification',
                     'foreman_details.description', 'foreman_details.experience', 'foreman_details.min_people',
                     'foreman_details.max_people', 'foreman_details.price')

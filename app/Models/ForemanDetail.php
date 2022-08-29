@@ -12,6 +12,8 @@ class ForemanDetail extends Model
 
     protected $fillable = [
         'user_id',
+        'subscription_type',
+        'status',
         'city',
         'wa_number',
         'classification',
