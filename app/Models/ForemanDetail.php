@@ -19,7 +19,6 @@ class ForemanDetail extends Model
         'experience',
         'min_people',
         'max_people',
-        'price',
         'bank_type',
         'account_name',
         'account_number',

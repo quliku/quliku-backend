@@ -25,7 +25,6 @@ return new class extends Migration
             $table->integer('experience');
             $table->integer('min_people');
             $table->integer('max_people');
-            $table->decimal('price', 14);
             $table->string('bank_type');
             $table->string('account_name');
             $table->string('account_number');

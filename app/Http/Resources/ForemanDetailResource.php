@@ -27,7 +27,6 @@ class ForemanDetailResource extends JsonResource
             'experience' => $this->experience,
             'min_people' => $this->min_people,
             'max_people' => $this->max_people,
-            'price' => $this->price,
             'bank_type' => $this->bank_type,
             'account_name' => $this->account_name,
             'account_number' => $this->account_number,

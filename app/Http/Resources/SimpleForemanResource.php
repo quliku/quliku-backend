@@ -44,7 +44,6 @@ class SimpleForemanResource extends JsonResource
                 'experience' => $this->experience,
                 'min_people' => $this->min_people,
                 'max_people' => $this->max_people,
-                'price' => $this->price,
             ],
         ];
     }
