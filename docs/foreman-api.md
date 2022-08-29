@@ -214,7 +214,6 @@
         "address": "Perum Japan Raya Jl. Bola Volly A.20",
         "total_price": 7000000,
         "document_url": "https://dashboard.binderbyte.com",
-        "fix_people": 3,
         "transportation_fee": 500000,
         "already_paid": null,
         "payment_type": "bulk",
@@ -332,7 +331,6 @@
             "address": "Perum Japan Raya Jl. Bola Volly A.20",
             "total_price": 7000000,
             "document_url": "https://dashboard.binderbyte.com",
-            "fix_people": 3,
             "transportation_fee": 500000,
             "already_paid": null,
             "payment_type": "bulk",
@@ -360,7 +358,6 @@
   - Authorization: Bearer **{token}**
 - Request body:
   - `project_id`: integer
-  - `fix_people`: integer
   - `transportation_fee`: integer
 
 **Example success response**
@@ -382,7 +379,6 @@
         "address": "Perum Japan Raya Jl. Bola Volly A.20",
         "total_price": 17500000,
         "document_url": "https://dashboard.binderbyte.com",
-        "fix_people": 5,
         "transportation_fee": 1200000,
         "already_paid": null,
         "payment_type": "daily",
@@ -467,7 +463,6 @@
         "address": "Perum Japan Raya Jl. Bola Volly A.20",
         "total_price": 17500000,
         "document_url": "https://dashboard.binderbyte.com",
-        "fix_people": 5,
         "transportation_fee": 1200000,
         "already_paid": null,
         "payment_type": "daily",
