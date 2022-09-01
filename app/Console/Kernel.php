@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('project:payment')->everyMinute();
         $schedule->command('project:done')->everyMinute();
+        $schedule->command('project:accept')->everyMinute();
     }
 
     /**
