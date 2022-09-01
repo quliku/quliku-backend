@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Project;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class ProjectPayment extends Command
 {
@@ -28,12 +29,18 @@ class ProjectPayment extends Command
      */
     public function handle(): void
     {
-        Project::where('status', '=', 'not_paid')
-            ->where('created_at', '<', now()->subHours(24))
+        DB::table('projects')
+            ->join('users', 'projects.foreman_id', '=', 'users.id')
+            ->join('foreman_details', 'users.id', '=', 'foreman_details.user_id')
+            ->where('projects.status', '=', 'not_paid')
+            ->where('projects.updated_at', '<', now()->subHours(24))
             ->update([
-                'status' => 'reject',
-                'reject_reason' => 'Payment is not received',
-                'updated_at' => now(),
+                'projects.status' => 'reject',
+                'projects.reject_reason' => 'Payment is not received',
+                'projects.updated_at' => now(),
+                'foreman_details.status' => 'active',
+                'foreman_details.is_work' => false,
+                'foreman_details.updated_at' => now(),
             ]);
     }
 }
