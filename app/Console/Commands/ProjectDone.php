@@ -38,12 +38,18 @@ class ProjectDone extends Command
                 'project_report.project_id',
                 '=',
                 'projects.id'
-            )->where('projects.status', '=', 'ongoing')
+            )
+            ->join('users', 'projects.foreman_id', '=', 'users.id')
+            ->join('foreman_details', 'users.id', '=', 'foreman_details.user_id')
+            ->where('projects.status', '=', 'ongoing')
             ->where('project_report.percentage', '=', 100)
             ->where('project_report.created_at', '<', now()->subHours(24))
             ->update([
                 'projects.status' => 'done',
                 'projects.updated_at' => now(),
+                'foreman_details.status' => 'active',
+                'foreman_details.is_work' => false,
+                'foreman_details.updated_at' => now(),
             ]);
     }
 }
