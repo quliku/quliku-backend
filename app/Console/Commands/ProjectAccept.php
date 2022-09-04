@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Project;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class ProjectAccept extends Command
 {
@@ -34,5 +35,7 @@ class ProjectAccept extends Command
                 'status' => 'reject',
                 'reject_reason' => 'Foreman is not accepted',
             ]);
+
+        Log::info('ProjectAccept command executed');
     }
 }

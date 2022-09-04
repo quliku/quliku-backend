@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Project;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProjectDone extends Command
 {
@@ -51,5 +52,7 @@ class ProjectDone extends Command
                 'foreman_details.is_work' => false,
                 'foreman_details.updated_at' => now(),
             ]);
+
+        Log::info('ProjectDone command executed');
     }
 }
