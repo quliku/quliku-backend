@@ -96,7 +96,7 @@ class ContractorController extends Controller
                     'users.profile_url', 'ar.rating', 'foreman_details.subscription_type', 'foreman_details.status',
                     'foreman_details.city', 'foreman_details.wa_number', 'foreman_details.classification',
                     'foreman_details.description', 'foreman_details.experience', 'foreman_details.min_people',
-                    'foreman_details.max_people', 'foreman_details.price')
+                    'foreman_details.max_people','foreman_details.is_work')
                 ->limit(20)
                 ->get();
 
