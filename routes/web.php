@@ -16,3 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('index');
 });
+
+Route::get('/login_admin', function () {
+    return view('login');
+});
+
+
+Route::get('/privacy', function () {
+    return view('privacy');
+});

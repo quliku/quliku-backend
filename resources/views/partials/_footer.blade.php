@@ -73,10 +73,10 @@
                     Aplikasi
                 </h6>
                 <p class="mb-4">
-                    <a href="#!" class="text-black-primary hover:text-orange-primary hover:font-medium">Quliku</a>
+                    <a href="#!" target="_blank" class="text-black-primary hover:text-orange-primary hover:font-medium">Quliku</a>
                 </p>
                 <p class="mb-4">
-                    <a href="#!" class="text-black-primary hover:text-orange-primary hover:font-medium">Mitra
+                    <a href="#!" target="_blank" class="text-black-primary hover:text-orange-primary hover:font-medium">Mitra
                         Quliku</a>
                 </p>
             </div>
@@ -85,8 +85,12 @@
                     Lainnya
                 </h6>
                 <p class="mb-4">
-                    <a href="#!" class="text-black-primary hover:text-orange-primary hover:font-medium">Gabung Jadi
+                    <a href="https://wa.me/6283104476239?text=Halo%2C%20saya%20tertarik%20untuk%20bergabung%20menjadi%20mitra%20Quliku.%0A%0AHal%20apa%20yang%20harus%20saya%20lakukan%20selanjutnya%3F%0A%0ATerima%20kasih"
+                    target="_blank" class="text-black-primary hover:text-orange-primary hover:font-medium">Gabung Jadi
                         Mitra</a>
+                </p>
+                <p class="mb-4">
+                    <a href="/privacy" class="text-black-primary hover:text-orange-primary hover:font-medium">Kebijakan Privasi</a>
                 </p>
             </div>
             <div>
@@ -118,7 +122,7 @@
                             d="M493.4 24.6l-104-24c-11.3-2.6-22.9 3.3-27.5 13.9l-48 112c-4.2 9.8-1.4 21.3 6.9 28l60.6 49.6c-36 76.7-98.9 140.5-177.2 177.2l-49.6-60.6c-6.8-8.3-18.2-11.1-28-6.9l-112 48C3.9 366.5-2 378.1.6 389.4l24 104C27.1 504.2 36.7 512 48 512c256.1 0 464-207.5 464-464 0-11.2-7.7-20.9-18.6-23.4z">
                         </path>
                     </svg>
-                    + 62878 1465 1400
+                    +62831 0447 6239
                 </p>
             </div>
         </div>

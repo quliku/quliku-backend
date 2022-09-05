@@ -20,16 +20,19 @@
             </div>
             <!-- Secondary Navbar items -->
             <div class="hidden md:flex items-center space-x-3 ">
-                <a href=""
+                <a href="https://wa.me/6283104476239?text=Halo%2C%20saya%20tertarik%20untuk%20bergabung%20menjadi%20mitra%20Quliku.%0A%0AHal%20apa%20yang%20harus%20saya%20lakukan%20selanjutnya%3F%0A%0ATerima%20kasih"
+                target="_blank"
                     class="py-2 px-2 font-medium text-black-primary hover:text-orange-primary transition duration-300">Gabung
                     Jadi Mitra</a>
                 <a href=""
+                target="_blank"
                     class="flex py-2 px-5 font-medium rounded-2xl bg-orange-primary hover:bg-orange-secondary text-white-primary transition duration-300">
                     <img alt="logo play-store" src="/images/play-store-white.png" class="w-6 h-6 mr-2" />
                     Quliku
 
                 </a>
                 <a href=""
+                target="_blank"
                     class="flex py-2 px-5 font-medium text-black-primary rounded-2xl bg-white-primary border-2 border-orange-primary hover:bg-orange-secondary hover:text-white-primary transition duration-300">
                     <img alt="logo play-store" src="/images/play-store-orange.png" class="w-6 h-6 mr-2" />
                     Mitra
@@ -50,13 +53,16 @@
     <!-- mobile menu -->
     <div class="hidden mobile-menu">
         <ul>
-            <li><a href=""
+            <li><a href="https://wa.me/6283104476239?text=Halo%2C%20saya%20tertarik%20untuk%20bergabung%20menjadi%20mitra%20Quliku.%0A%0AHal%20apa%20yang%20harus%20saya%20lakukan%20selanjutnya%3F%0A%0ATerima%20kasih"
+                target="_blank"
                     class="block text-sm px-2 py-4 text-black-primary hover:bg-orange-primary hover:text-white-primary hover:font-semibold transition duration-300">Gabung
                     Jadi Mitra</a></li>
             <li><a href=""
+                target="_blank"
                     class="block text-sm px-2 py-4 hover:bg-orange-primary hover:text-white-primary hover:font-semibold transition duration-300">Aplikasi
                     Quliku</a></li>
             <li><a href=""
+                target="_blank"
                     class="block text-sm px-2 py-4 hover:bg-orange-primary hover:text-white-primary hover:font-semibold transition duration-300">Aplikasi
                     Mitra Quliku</a>
             </li>
