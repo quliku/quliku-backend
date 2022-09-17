@@ -309,7 +309,7 @@
 - Headers:
     - Authorization: Bearer **{token}**
 - Parameters:
-    - `status`: string [ `waiting` | `not_paid` | `ongoing` | `done` | `reject` | `review`] (opsional)
+    - `status`: string [ `waiting` | `not_paid` | `ongoing` | `done` | `reject` | `review`] (opsional, multi value). Example: `status=waiting,not_paid`
 
 **Example success response**
 ```json
