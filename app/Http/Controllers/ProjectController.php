@@ -82,8 +82,11 @@ class ProjectController extends Controller
                 throw new Exception('You are not authorized to get list project',1006);
 
             $projects = Project::where($user->role.'_id', $user->getAuthIdentifier());
-            if($request->has('status'))
-                $projects = $projects->where('status', $request->query('status'));
+
+            if($request->has('status')) {
+                $status_query = explode(',', str_replace(' ', '', $request->query('status')));
+                $projects = $projects->whereIn('status', $status_query);
+            }
 
             $projects = $projects->orderByDesc('created_at')
                 ->with($user->role == 'contractor' ? 'foreman' : 'contractor')
