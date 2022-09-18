@@ -37,6 +37,8 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'role' => $this->role,
             'profile_url' => $this->getProfileImageUrl($this->profile_url),
+            'rating' => $this->when($this->relationLoaded('foremanRatings'), $this->foremanRatings->avg('rating') ?? 0),
+            'details' => (new ForemanDetailResource($this->whenLoaded('foremanDetail'))),
         ];
 
         if ($this->token) {
