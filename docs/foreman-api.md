@@ -284,7 +284,23 @@
             "username": "budi.purwa",
             "email": "budi@gmail.com",
             "role": "foreman",
-            "profile_url": "http://127.0.0.1:8000/images/user-default.png"
+            "profile_url": "http://127.0.0.1:8000/images/user-default.png",
+            "rating": 0,
+            "details": {
+                "subscription": "regular",
+                "status": "active",
+                "is_work": 0,
+                "city": "mojokerto",
+                "wa_number": "082234260055",
+                "classification": "water",
+                "description": "Saya berpengalaman dalam hiasan eksterior maupun interior bangunan",
+                "experience": 12,
+                "min_people": 40,
+                "max_people": 70,
+                "bank_type": "BRI",
+                "account_name": "Prabu Kuncoro",
+                "account_number": "0923743292384"
+            }
         }
     }
 }
